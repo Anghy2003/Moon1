@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1048431871160",
+    "project_id": "flutter-moon",
+    "storage_bucket": "flutter-moon.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1048431871160:android:adcfa96114da2e6124204d",
+        "android_client_info": {
+          "package_name": "com.example.moon_aplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBH6juyV_EXgbxLNGIBpGn8s04m31jnnGc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
