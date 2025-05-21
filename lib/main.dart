@@ -1,3 +1,4 @@
+// main.dart
 import 'package:flutter/material.dart';
 import 'package:moon_aplication/home/menu_navegacion.dart';
 import 'package:moon_aplication/shared/app_theme.dart';
@@ -14,8 +15,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Moon Reservas',
-      theme: AppTheme().getTheme(), // Usa AppTheme correctamente
-      home: const MenuNavegacion(),
+      theme: AppTheme().getTheme(), // Aplica tu tema personalizado
+      home: const MenuNavegacion(), // Se inicia con MenuNavegacion
     );
   }
 }

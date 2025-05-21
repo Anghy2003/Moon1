@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  static const Color primaryColor = Color(0xFF00BECF);
+  static const Color primaryColor = Color(0xFF00BECF); 
 
   ThemeData getTheme() => ThemeData(
     useMaterial3: true,
-    colorScheme: ColorScheme.fromSeed(
-      seedColor: primaryColor,
-      brightness: Brightness.light,
-    ),
+    colorScheme: ColorScheme.light(primary: primaryColor),
 
     // Estilos de botones
     elevatedButtonTheme: ElevatedButtonThemeData(
