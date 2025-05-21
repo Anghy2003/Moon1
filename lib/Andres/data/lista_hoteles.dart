@@ -1,61 +1,58 @@
-
 final List<Map<String, dynamic>> listadoHoteles = [
   {
     'name': 'Playa Paradiso',
     'location': 'Costa del Sol, Spain',
-    'rating': 4.8,
-    'imageUrl': 'https://th.bing.com/th/id/R.ce43f7e8e0571c21e762b8924aad874d?rik=Lgf1H0ETLLyrWA&pid=ImgRaw&r=0',
+    'rating': 4.2,
+    'price': "\$130/noche",
+    'imageUrl': 'https://th.bing.com/th/id/OIP.TxtXvdpIQJr2Hd2QYnB2FwHaE8?rs=1&pid=ImgDetMain',
   },
-
-
   {
-    'name': 'Marina Bay Hotel',
+    'name': 'Marina Bay Luxe',
     'location': 'Singapore',
-    'rating': 4.6,
-    'imageUrl': 'https://th.bing.com/th/id/R.ce43f7e8e0571c21e762b8924aad874d?rik=Lgf1H0ETLLyrWA&pid=ImgRaw&r=0',
-  },
-  
-  {
-    'name': 'Playa Paradiso',
-    'location': 'Costa del Sol, Spain',
     'rating': 4.8,
-    'imageUrl': 'https://th.bing.com/th/id/R.ce43f7e8e0571c21e762b8924aad874d?rik=Lgf1H0ETLLyrWA&pid=ImgRaw&r=0',
+    'price': "\$200/noche",
+    'imageUrl': 'https://th.bing.com/th/id/OIP.msmoHDQ3mSwCsMqZNrlSMgHaFL?rs=1&pid=ImgDetMain',
   },
-
-
   {
-    'name': 'Marina Bay Hotel',
-    'location': 'Singapore',
+    'name': 'Mountain Retreat',
+    'location': 'Swiss Alps, Switzerland',
+    'rating': 4.9,
+    'price': "\$250/noche",
+    'imageUrl': 'https://th.bing.com/th/id/OIP.TxtXvdpIQJr2Hd2QYnB2FwHaE8?rs=1&pid=ImgDetMain',
+  },
+  {
+    'name': 'Urban Oasis',
+    'location': 'New York, USA',
+    'rating': 4.5,
+    'price': "\$180/noche",
+    'imageUrl': 'https://th.bing.com/th/id/OIP.EsqxVYnuWM6jPHO8JjOffgHaE5?w=1166&h=772&rs=1&pid=ImgDetMain',
+  },
+  {
+    'name': 'Safari Lodge',
+    'location': 'Maasai Mara, Kenya',
+    'rating': 4.7,
+    'price': "\$220/noche",
+    'imageUrl': 'https://th.bing.com/th/id/OIP.TxtXvdpIQJr2Hd2QYnB2FwHaE8?rs=1&pid=ImgDetMain',
+  },
+  {
+    'name': 'Desert Mirage',
+    'location': 'Dubai, UAE',
+    'rating': 4.3,
+    'price': "\$210/noche",
+    'imageUrl': 'https://th.bing.com/th/id/OIP.msmoHDQ3mSwCsMqZNrlSMgHaFL?rs=1&pid=ImgDetMain',
+  },
+  {
+    'name': 'Countryside Inn',
+    'location': 'Tuscany, Italy',
+    'rating': 4.0,
+    'price': "\$150/noche",
+    'imageUrl': 'https://th.bing.com/th/id/OIP.TxtXvdpIQJr2Hd2QYnB2FwHaE8?rs=1&pid=ImgDetMain',
+  },
+  {
+    'name': 'Island Escape',
+    'location': 'Bali, Indonesia',
     'rating': 4.6,
-    'imageUrl': 'https://th.bing.com/th/id/R.ce43f7e8e0571c21e762b8924aad874d?rik=Lgf1H0ETLLyrWA&pid=ImgRaw&r=0',
+    'price': "\$170/noche",
+    'imageUrl': 'https://th.bing.com/th/id/OIP.EsqxVYnuWM6jPHO8JjOffgHaE5?w=1166&h=772&rs=1&pid=ImgDetMain',
   },
-  {
-    'name': 'Playa Paradiso',
-    'location': 'Costa del Sol, Spain',
-    'rating': 4.8,
-    'imageUrl': 'https://th.bing.com/th/id/R.ce43f7e8e0571c21e762b8924aad874d?rik=Lgf1H0ETLLyrWA&pid=ImgRaw&r=0',
-  },
-
-
-  {
-    'name': 'Marina Bay Hotel',
-    'location': 'Singapore',
-    'rating': 4.6,
-    'imageUrl': 'https://th.bing.com/th/id/R.ce43f7e8e0571c21e762b8924aad874d?rik=Lgf1H0ETLLyrWA&pid=ImgRaw&r=0',
-  },
-  {
-    'name': 'Playa Paradiso',
-    'location': 'Costa del Sol, Spain',
-    'rating': 4.8,
-    'imageUrl': 'https://th.bing.com/th/id/R.ce43f7e8e0571c21e762b8924aad874d?rik=Lgf1H0ETLLyrWA&pid=ImgRaw&r=0',
-  },
-
-
-  {
-    'name': 'Marina Bay Hotel',
-    'location': 'Singapore',
-    'rating': 4.6,
-    'imageUrl': 'https://th.bing.com/th/id/R.ce43f7e8e0571c21e762b8924aad874d?rik=Lgf1H0ETLLyrWA&pid=ImgRaw&r=0',
-  },
-
 ];

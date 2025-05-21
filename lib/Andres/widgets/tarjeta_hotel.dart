@@ -3,30 +3,32 @@ import 'package:moon_aplication/Andres/widgets/imagen_tarjeta.dart';
 
 class TarjetaHotel extends StatelessWidget {
   final Map<String, dynamic> hotel;
-  final VoidCallback onTap; //  Agregamos la funcion de clic
+  final VoidCallback onTap;
 
   const TarjetaHotel({super.key, required this.hotel, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
+    final int starCount = (hotel['rating'] as num).round();
+
     return GestureDetector(
       onTap: onTap,
       child: Card(
         elevation: 3,
-        margin: const EdgeInsets.symmetric(vertical: 10), // Aumenta la separacion entre tarjetas
+        margin: const EdgeInsets.symmetric(vertical: 10),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
         child: Container(
-          height: 150, // Ajusta la altura de la tarjeta
-          padding: const EdgeInsets.all(12), // Espaciado interno mas amplio
+          height: 165, 
+          padding: const EdgeInsets.fromLTRB(2, 1, 20, 1),
           child: Row(
             children: [
               ClipRRect(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(25),
                 child: ImagenTarjeta(hotel: hotel),
               ),
-              const SizedBox(width: 20), // Mas espacio entre imagen y texto
+              const SizedBox(width: 20),
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -34,12 +36,15 @@ class TarjetaHotel extends StatelessWidget {
                   children: [
                     Text(
                       hotel['name'],
-                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
                     ),
-                    const SizedBox(height: 6), // Espaciado extra entre titulo y ubicacion
+                    const SizedBox(height: 8),
                     Row(
                       children: [
-                        const Icon(Icons.location_on, color: Colors.grey, size: 18), // Icono de ubicacion gris
+                        const Icon(Icons.location_on, color: Colors.grey, size: 18),
                         const SizedBox(width: 6),
                         Text(
                           hotel['location'],
@@ -47,13 +52,34 @@ class TarjetaHotel extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 8), // Más espacio antes del rating
+                    const SizedBox(height: 10),
                     Row(
                       children: [
-                        const Icon(Icons.star, color: Colors.yellow, size: 20),
-                        const SizedBox(width: 4),
-                        Text(hotel['rating'].toString()),
+                        Text(
+                          hotel['rating'].toString(),
+                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(width: 6),
+                        Row(
+                          children: List.generate(
+                            starCount,
+                            (index) => const Icon(Icons.star, color: Colors.yellow, size: 18),
+                          ),
+                        ),
                       ],
+                    ),
+                    const SizedBox(height: 10),
+                    // 🔥 Precio alineado a la derecha dentro de la columna
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                        hotel['price'] as String,
+                        style: const TextStyle(
+                          color: Colors.green,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ],
                 ),

@@ -11,8 +11,8 @@ class ImagenTarjeta extends StatelessWidget {
   Widget build(BuildContext context) {
     return Image.network(
       hotel['imageUrl'],
-      width: 150,
-      height: 150,
+      width: 160,
+      height: 130,
       fit: BoxFit.cover,
       errorBuilder: (context, error, stackTrace) {
         return Container(

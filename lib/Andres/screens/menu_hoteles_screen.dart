@@ -14,14 +14,14 @@ class _MenuHotelesState extends State<MenuHoteles> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(toolbarHeight: 0), // 🔥 Eliminamos el AppBar dinámico
+      appBar: AppBar(toolbarHeight: 0), 
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(5.0),
           child: Column(
             children: [
               const BuscarHoteles(),
-              const SizedBox(height: 16),
+              const SizedBox(height: 30),
               Expanded(child: _buildListaHoteles()),
             ],
           ),
