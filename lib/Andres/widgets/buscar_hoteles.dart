@@ -17,7 +17,7 @@ class BuscarHoteles extends StatelessWidget {
             hintStyle: TextStyle(color: theme.colorScheme.onSurfaceVariant), // Color del texto desde AppTheme
             prefixIcon: Icon(Icons.search, color: theme.colorScheme.onSurfaceVariant), // Color del icono desde AppTheme
             filled: true,
-            fillColor: theme.colorScheme.surface, // Fondo blanco según AppTheme
+            fillColor: theme.colorScheme.surface, // Fondo blanco segn AppTheme
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30),
               borderSide: BorderSide(color: theme.colorScheme.primary, width: 2), // Borde turquesa desde AppTheme
@@ -28,7 +28,7 @@ class BuscarHoteles extends StatelessWidget {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30),
-              borderSide: BorderSide(color: theme.colorScheme.primary, width: 2), // Borde turquesa cuando está enfocado
+              borderSide: BorderSide(color: theme.colorScheme.primary, width: 2), // Borde turquesa cuando esta enfocado
             ),
             contentPadding: const EdgeInsets.symmetric(vertical: 25, horizontal: 16), // Aumenta la altura interna
           ),

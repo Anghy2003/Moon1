@@ -3,30 +3,30 @@ import 'package:moon_aplication/Andres/widgets/imagen_tarjeta.dart';
 
 class TarjetaHotel extends StatelessWidget {
   final Map<String, dynamic> hotel;
-  final VoidCallback onTap; // ✅ Agregamos la función de clic
+  final VoidCallback onTap; //  Agregamos la funcion de clic
 
   const TarjetaHotel({super.key, required this.hotel, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap, // ✅ Se activa el clic en la tarjeta
+      onTap: onTap,
       child: Card(
         elevation: 3,
-        margin: const EdgeInsets.symmetric(vertical: 10), // Aumenta la separación entre tarjetas
+        margin: const EdgeInsets.symmetric(vertical: 10), // Aumenta la separacion entre tarjetas
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
         child: Container(
           height: 150, // Ajusta la altura de la tarjeta
-          padding: const EdgeInsets.all(12), // Espaciado interno más amplio
+          padding: const EdgeInsets.all(12), // Espaciado interno mas amplio
           child: Row(
             children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: ImagenTarjeta(hotel: hotel),
               ),
-              const SizedBox(width: 20), // Más espacio entre imagen y texto
+              const SizedBox(width: 20), // Mas espacio entre imagen y texto
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -36,10 +36,10 @@ class TarjetaHotel extends StatelessWidget {
                       hotel['name'],
                       style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                     ),
-                    const SizedBox(height: 6), // Espaciado extra entre título y ubicación
+                    const SizedBox(height: 6), // Espaciado extra entre titulo y ubicacion
                     Row(
                       children: [
-                        const Icon(Icons.location_on, color: Colors.grey, size: 18), // Icono de ubicación gris
+                        const Icon(Icons.location_on, color: Colors.grey, size: 18), // Icono de ubicacion gris
                         const SizedBox(width: 6),
                         Text(
                           hotel['location'],

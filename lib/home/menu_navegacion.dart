@@ -1,50 +1,67 @@
+// lib/home/menu_navegacion.dart
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:moon_aplication/home/botones/boton_home.dart';
 import 'package:moon_aplication/home/botones/boton_likes.dart';
 import 'package:moon_aplication/home/botones/boton_perfil.dart';
 import 'package:moon_aplication/home/botones/boton_reservar.dart';
 
-class MenuNavegacion extends StatefulWidget {
-  const MenuNavegacion({super.key});
-
-  @override
-  State<MenuNavegacion> createState() => NavegacionState();
+// Extensión para obtener la ubicación actual usando el routerDelegate
+extension RouterLocationExtension on BuildContext {
+  String get currentRouterLocation {
+    return GoRouter.of(this).routerDelegate.currentConfiguration.uri.toString();
+  }
 }
 
-class NavegacionState extends State<MenuNavegacion> {
-  int currentPageIndex = 0;
+class MenuNavegacion extends StatelessWidget {
+  final Widget child;
+  const MenuNavegacion({Key? key, required this.child}) : super(key: key);
 
-  final List<Widget> _pages = const [
-    BotonHome(),
-    BotonReservar(),
-    BotonLikes(),
-    BotonPerfil(),
-  ];
+  int _getCurrentIndex(BuildContext context) {
+    final location = context.currentRouterLocation;
+    if (location == '/reservar') return 1;
+    if (location == '/likes') return 2;
+    if (location == '/perfil') return 3;
+    return 0; // Para '/home' o cualquier otro caso se queda en 0.
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      body: child, // aquí se mostrará la pantalla según la ruta interna
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          color: Theme.of(context).navigationBarTheme.backgroundColor, // Fondo turquesa
+          color: Theme.of(context).navigationBarTheme.backgroundColor,
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(20),
             topRight: Radius.circular(20),
-          ), // Bordes redondeados superiores
+          ),
         ),
         child: ClipRRect(
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(20),
             topRight: Radius.circular(20),
-          ), // Se recorta el contenido al mismo radio
+          ),
           child: NavigationBar(
             onDestinationSelected: (int index) {
-              setState(() {
-                currentPageIndex = index;
-              });
+              switch (index) {
+                case 0:
+                  context.go('/home'); // Navega a la ruta '/home'
+                  break;
+                case 1:
+                  context.go('/reservar');
+                  break;
+                case 2:
+                  context.go('/likes');
+                  break;
+                case 3:
+                  context.go('/perfil');
+                  break;
+              }
             },
-            indicatorColor: Theme.of(context).navigationBarTheme.indicatorColor,
-            selectedIndex: currentPageIndex,
+            indicatorColor:
+                Theme.of(context).navigationBarTheme.indicatorColor,
+            selectedIndex: _getCurrentIndex(context),
             destinations: [
               BotonHome.icono(),
               BotonReservar.icono(),
@@ -54,7 +71,6 @@ class NavegacionState extends State<MenuNavegacion> {
           ),
         ),
       ),
-      body: _pages[currentPageIndex],
     );
   }
 }
