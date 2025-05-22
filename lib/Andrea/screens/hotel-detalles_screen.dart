@@ -28,46 +28,74 @@ class HoteldetallesScreen extends StatelessWidget {
           return Column(
             children: [
               const SizedBox(height: 30),
-              Stack(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(30),
-                      child: Image.network(
-                        hotel.imagenPrincipal,
-                        height: 280,
-                        width: double.infinity,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 20,
-                    left: 30,
-                    right: 30,
-                    child: SizedBox(
-                      height: 60,
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        children: hotel.imagenes.map((imgUrl) {
-                          return Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 6),
-                            width: 50,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              image: DecorationImage(
-                                image: NetworkImage(imgUrl),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                  )
-                ],
+            Stack(
+  children: [
+    Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(30),
+        child: Image.network(
+          hotel.imagenPrincipal,
+          height: 280,
+          width: double.infinity,
+          fit: BoxFit.cover,
+        ),
+      ),
+    ),
+    // Botón flecha en esquina superior izquierda con fondo blanco circular
+    Positioned(
+      top: 40,
+      left: 20,
+      child: GestureDetector(
+        onTap: () => Navigator.pop(context),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black26,
+                blurRadius: 4,
+                offset: Offset(0, 2),
               ),
+            ],
+          ),
+          padding: const EdgeInsets.all(6),
+          child: const Icon(
+            Icons.arrow_back,
+            size: 28,
+            color: Color.fromARGB(255, 7, 7, 7),
+          ),
+        ),
+      ),
+    ),
+    Positioned(
+      bottom: 20,
+      left: 30,
+      right: 40,
+      child: SizedBox(
+        height: 60,
+        child: ListView(
+          scrollDirection: Axis.horizontal,
+          children: hotel.imagenes.map((imgUrl) {
+            return Container(
+              margin: const EdgeInsets.symmetric(horizontal: 6),
+              width: 50,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                image: DecorationImage(
+                  image: NetworkImage(imgUrl),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            );
+          }).toList(),
+        ),
+      ),
+    ),
+  ],
+),
+
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -137,18 +165,31 @@ class HoteldetallesScreen extends StatelessWidget {
                             fontSize: 22, fontWeight: FontWeight.bold, color: Colors.green),
                       ),
                       const SizedBox(height: 20),
-                      Center(
-                        child: IconButton(
-                          icon: const Icon(Icons.arrow_back, size: 30, color: Colors.cyan),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ),
-                    ],
+Center(
+  child: ElevatedButton(
+    onPressed: () {
+   
+    },
+    style: ElevatedButton.styleFrom(
+      backgroundColor: Colors.cyan,
+      foregroundColor: Colors.white,  // Color del texto explícito para que contraste
+      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 14),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(30),
+      ),
+    ),
+    child: const Text(
+      'Reservar',
+      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+    ),
+  ),
+),
+const SizedBox(height: 10),]
+
                   ),
+                  ), 
                 ),
-              ),
+              
             ],
           );
         },
