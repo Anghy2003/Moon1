@@ -1,4 +1,3 @@
-// lib/home/menu_navegacion.dart
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:moon_aplication/home/botones/boton_home.dart';
@@ -15,7 +14,7 @@ extension RouterLocationExtension on BuildContext {
 
 class MenuNavegacion extends StatelessWidget {
   final Widget child;
-  const MenuNavegacion({Key? key, required this.child}) : super(key: key);
+  const MenuNavegacion({super.key, required this.child});
 
   int _getCurrentIndex(BuildContext context) {
     final location = context.currentRouterLocation;
@@ -27,47 +26,62 @@ class MenuNavegacion extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Detecta el padding inferior del dispositivo (por ejemplo, para dispositivos con gestos)
+    final double bottomPadding = MediaQuery.of(context).padding.bottom;
+
     return Scaffold(
-      body: child, // aquí se mostrará la pantalla según la ruta interna
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          color: Theme.of(context).navigationBarTheme.backgroundColor,
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
-          ),
-        ),
-        child: ClipRRect(
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
-          ),
-          child: NavigationBar(
-            onDestinationSelected: (int index) {
-              switch (index) {
-                case 0:
-                  context.go('/home'); // Navega a la ruta '/home'
-                  break;
-                case 1:
-                  context.go('/reservar');
-                  break;
-                case 2:
-                  context.go('/likes');
-                  break;
-                case 3:
-                  context.go('/perfil');
-                  break;
-              }
-            },
-            indicatorColor:
-                Theme.of(context).navigationBarTheme.indicatorColor,
-            selectedIndex: _getCurrentIndex(context),
-            destinations: [
-              BotonHome.icono(),
-              BotonReservar.icono(),
-              BotonLikes.icono(),
-              BotonPerfil.icono(),
-            ],
+      extendBody: true, // Permite que el contenido se extienda hasta el borde inferior.
+      body: child, // Aquí se mostrará la pantalla según la ruta interna.
+      // Se usa un SafeArea configurado para no incluir el padding inferior,
+      // y luego se desplaza la barra hacia arriba para compensar el espacio.
+      bottomNavigationBar: SafeArea(
+        bottom: false,
+        child: Transform.translate(
+          offset: Offset(0, -bottomPadding * 0.7), // Ajusta este multiplicador según convenga.
+          child: Container(
+            height: 50,
+            decoration: BoxDecoration(
+              color: Theme.of(context).navigationBarTheme.backgroundColor,
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
+              ),
+            ),
+            child: ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
+              ),
+              child: NavigationBar(
+                height: 50,
+                onDestinationSelected: (int index) {
+                  switch (index) {
+                    case 0:
+                      context.go('/home');
+                      break;
+                    case 1:
+                      context.go('/reservar');
+                      break;
+                    case 2:
+                      context.go('/likes');
+                      break;
+                    case 3:
+                      context.go('/perfil');
+                      break;
+                  }
+                },
+                indicatorColor: Theme.of(context)
+                    .navigationBarTheme
+                    .indicatorColor,
+                selectedIndex: _getCurrentIndex(context),
+                destinations: [
+                  BotonHome.icono(),
+                  BotonReservar.icono(),
+                  BotonLikes.icono(),
+                  BotonPerfil.icono(),
+                ],
+              ),
+            ),
           ),
         ),
       ),
