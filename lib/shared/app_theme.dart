@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  static const Color primaryColor = Color(0xFF00BECF); 
+  static const Color primaryColor = Color(0xFF00BECF);  
 
   ThemeData getTheme() => ThemeData(
     useMaterial3: true,
@@ -21,12 +21,17 @@ class AppTheme {
       ),
     ),
 
-    // Configuración de la barra de navegación (sin iconTheme, ya que está deprecado)
+    // Configuración de la barra de navegación
     navigationBarTheme: NavigationBarThemeData(
-      backgroundColor: primaryColor, // Fondo turquesa
-      indicatorColor: Colors.white, // Indicador blanco
-      surfaceTintColor: Colors.transparent, // Evita alteraciones de color
-      // Se eliminó iconTheme para evitar deprecation.
+      backgroundColor: primaryColor,
+      indicatorColor: Colors.white,
+      surfaceTintColor: Colors.transparent,
     ),
   );
+
+  // 🔥 Método global para calcular el factor de escala basado en el tamaño del dispositivo
+  static double scaleFactor(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    return screenWidth / 400; // 400 es una referencia de tamaño base
+  }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:moon_aplication/Andres/data/lista_hoteles.dart';
-import 'package:moon_aplication/Andres/widgets/buscar_hoteles.dart';
-import 'package:moon_aplication/Andres/widgets/hotel_seleccionado.dart';
+import 'package:moon_aplication/Andres/widgets/menu_hoteles/buscar_hoteles.dart';
+import 'package:moon_aplication/Andres/widgets/menu_hoteles/hotel_seleccionado.dart';
 
 class MenuHoteles extends StatefulWidget {
   const MenuHoteles({super.key});

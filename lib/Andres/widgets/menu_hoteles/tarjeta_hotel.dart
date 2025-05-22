@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:moon_aplication/Andres/widgets/imagen_tarjeta.dart';
+import 'package:moon_aplication/Andres/widgets/menu_hoteles/imagen_tarjeta.dart';
+import 'package:moon_aplication/shared/app_theme.dart';
 
 class TarjetaHotel extends StatelessWidget {
   final Map<String, dynamic> hotel;
@@ -9,12 +10,15 @@ class TarjetaHotel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double scaleFactor = AppTheme.scaleFactor(context);//TAMAñO DE PANTALLA
+
+
     final int starCount = (hotel['rating'] as num).round();
 
     return GestureDetector(
       onTap: onTap,
       child: Card(
-        elevation: 3,
+        elevation: 3 * scaleFactor,
         margin: const EdgeInsets.symmetric(vertical: 10),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
