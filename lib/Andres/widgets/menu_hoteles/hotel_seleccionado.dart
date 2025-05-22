@@ -15,7 +15,8 @@ class HotelSeleccionado extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => HoteldetallesScreen(), 
+          builder: (context) => HoteldetallesScreen(idHotel: 'dkBIxlmrgabUYuRMl6DS'),
+
           ),
         );
       },
