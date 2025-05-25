@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:moon_aplication/Andrea/models/hotel.dart';
 import 'package:moon_aplication/Andres/controller/hotel_controller.dart';
-import 'package:moon_aplication/Andres/widgets/menu_hoteles/buscar_hoteles.dart';
 import 'package:moon_aplication/Andres/widgets/menu_hoteles/hotel_seleccionado.dart';
 
-class MenuHoteles extends StatefulWidget {
-  const MenuHoteles({super.key});
+class MenuPrincipalScreen extends StatefulWidget {
+  const MenuPrincipalScreen({super.key});
 
   @override
-  State<MenuHoteles> createState() => _MenuHotelesState();
+  State<MenuPrincipalScreen> createState() => _MenuHotelesState();
 }
 
-class _MenuHotelesState extends State<MenuHoteles> {
+class _MenuHotelesState extends State<MenuPrincipalScreen> {
   late Future<List<Hotel>> _futureHoteles;
   String _searchQuery = ""; // Variable para almacenar el query de búsqueda
 
@@ -37,13 +36,7 @@ class _MenuHotelesState extends State<MenuHoteles> {
           child: Column(
             children: [
               // Se actualiza el widget para que acepte el callback onChanged.
-              BuscarHoteles(
-                onChanged: (query) {
-                  setState(() {
-                    _searchQuery = query;
-                  });
-                },
-              ),
+              Text("Hoteles Populares", style: TextStyle(fontWeight: FontWeight.bold ),),
               const SizedBox(height: 30),
               Expanded(child: _buildListaHoteles()),
             ],
