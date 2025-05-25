@@ -12,12 +12,13 @@ class MenuPrincipalScreen extends StatefulWidget {
 
 class _MenuHotelesState extends State<MenuPrincipalScreen> {
   late Future<List<Hotel>> _futureHoteles;
-  String _searchQuery = ""; // Variable para almacenar el query de búsqueda
+  final String _searchQuery =
+      ""; // Variable para almacenar el query de búsqueda
 
   @override
   void initState() {
     super.initState();
-    _cargarHoteles(); 
+    _cargarHoteles();
   }
 
   Future<void> _cargarHoteles() async {
@@ -29,15 +30,22 @@ class _MenuHotelesState extends State<MenuPrincipalScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(toolbarHeight: 0), 
+      appBar: AppBar(toolbarHeight: 0),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(5.0),
           child: Column(
             children: [
               // Se actualiza el widget para que acepte el callback onChanged.
-              Text("Hoteles Populares", style: TextStyle(fontWeight: FontWeight.bold ),),
-              const SizedBox(height: 30),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Hoteles Populares",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),                  
+                ),
+              ),
+
+              const SizedBox(height: 300),
               Expanded(child: _buildListaHoteles()),
             ],
           ),
@@ -56,7 +64,9 @@ class _MenuHotelesState extends State<MenuPrincipalScreen> {
             return const Center(child: CircularProgressIndicator());
           }
           if (snapshot.hasError) {
-            return Center(child: Text('Error al obtener los hoteles: ${snapshot.error}'));
+            return Center(
+              child: Text('Error al obtener los hoteles: ${snapshot.error}'),
+            );
           }
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return const Center(child: Text('No hay hoteles disponibles'));
@@ -66,11 +76,16 @@ class _MenuHotelesState extends State<MenuPrincipalScreen> {
           final String query = _searchQuery.toLowerCase();
 
           // Filtramos por nombre o ubicación
-          final List<Hotel> filteredHoteles = hoteles.where((hotel) {
-            final bool matchesNombre = hotel.nombre.toLowerCase().contains(query);
-            final bool matchesUbicacion = hotel.ubicacion.toLowerCase().contains(query);
-            return matchesNombre || matchesUbicacion;
-          }).toList();
+          final List<Hotel> filteredHoteles =
+              hoteles.where((hotel) {
+                final bool matchesNombre = hotel.nombre.toLowerCase().contains(
+                  query,
+                );
+                final bool matchesUbicacion = hotel.ubicacion
+                    .toLowerCase()
+                    .contains(query);
+                return matchesNombre || matchesUbicacion;
+              }).toList();
 
           if (_searchQuery.isNotEmpty && filteredHoteles.isEmpty) {
             return const Center(child: Text('No se encontraron hoteles'));
@@ -80,7 +95,9 @@ class _MenuHotelesState extends State<MenuPrincipalScreen> {
             physics: const AlwaysScrollableScrollPhysics(),
             itemCount: filteredHoteles.length,
             separatorBuilder: (context, index) => const SizedBox(height: 12),
-            itemBuilder: (context, index) => HotelSeleccionado(hotel: filteredHoteles[index]),
+            itemBuilder:
+                (context, index) =>
+                    HotelSeleccionado(hotel: filteredHoteles[index]),
           );
         },
       ),
