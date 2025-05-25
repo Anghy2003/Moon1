@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:moon_aplication/Andrea/controllers/hotelControlador.dart';
 import 'package:moon_aplication/Andrea/models/hotel.dart';
 
@@ -168,6 +169,7 @@ class HoteldetallesScreen extends StatelessWidget {
 Center(
   child: ElevatedButton(
     onPressed: () {
+      context.go('/calendario');
    
     },
     style: ElevatedButton.styleFrom(
