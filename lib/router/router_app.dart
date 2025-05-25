@@ -1,5 +1,6 @@
 
 import 'package:go_router/go_router.dart';
+import 'package:moon_aplication/Andrea/screens/date_selection_screen.dart';
 import 'package:moon_aplication/home/botones/boton_home.dart';
 import 'package:moon_aplication/home/botones/boton_likes.dart';
 import 'package:moon_aplication/home/botones/boton_perfil.dart';
@@ -38,7 +39,10 @@ final GoRouter router = GoRouter(
           builder: (context, state) => const BotonPerfil(),
         ),
 
-        
+        GoRoute(
+          path: '/calendario',
+          builder: (context, state) => CalendarScreen(),
+        ),
 
       ],
     ),
