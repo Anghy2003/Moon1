@@ -15,7 +15,7 @@ extension RouterLocationExtension on BuildContext {
 
 class MenuNavegacion extends StatelessWidget {
   final Widget child;
-  const MenuNavegacion({Key? key, required this.child}) : super(key: key);
+  const MenuNavegacion({super.key, required this.child});
 
   int _getCurrentIndex(BuildContext context) {
     final location = context.currentRouterLocation;

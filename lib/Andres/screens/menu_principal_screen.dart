@@ -1,105 +1,110 @@
 import 'package:flutter/material.dart';
-import 'package:moon_aplication/Andrea/models/hotel.dart';
-import 'package:moon_aplication/Andres/controller/hotel_controller.dart';
-import 'package:moon_aplication/Andres/widgets/menu_hoteles/hotel_seleccionado.dart';
+import 'package:moon_aplication/Andres/widgets/gradiente_color_fondo.dart';
+import 'package:moon_aplication/Andres/widgets/menu_hoteles/buscar_hoteles.dart';
+import 'package:moon_aplication/Andres/widgets/menu_principal/lista_hoteles_home.dart';
+import 'package:moon_aplication/Andres/widgets/menu_principal/scroll_horizontal.dart'; // Importar la clase de gradiente
 
 class MenuPrincipalScreen extends StatefulWidget {
   const MenuPrincipalScreen({super.key});
 
   @override
-  State<MenuPrincipalScreen> createState() => _MenuHotelesState();
+  State<MenuPrincipalScreen> createState() => _MenuPrincipalScreenState();
 }
 
-class _MenuHotelesState extends State<MenuPrincipalScreen> {
-  late Future<List<Hotel>> _futureHoteles;
-  final String _searchQuery =
-      ""; // Variable para almacenar el query de búsqueda
+class _MenuPrincipalScreenState extends State<MenuPrincipalScreen> {
+  String _searchQuery = "";
 
-  @override
-  void initState() {
-    super.initState();
-    _cargarHoteles();
-  }
-
-  Future<void> _cargarHoteles() async {
-    setState(() {
-      _futureHoteles = obtenerTodosLosHoteles();
-    });
+  Future<void> _recargarHoteles() async {
+    setState(() {});
+    await Future.delayed(const Duration(seconds: 2)); 
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(toolbarHeight: 0),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(5.0),
-          child: Column(
-            children: [
-              // Se actualiza el widget para que acepte el callback onChanged.
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Hoteles Populares",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),                  
+      body: Container(
+        width: double.infinity, 
+        height: double.infinity,
+        decoration: const BoxDecoration(
+          gradient: GradienteColorFondo.backgroundGradient,
+        ),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    "¿Cuál será tu destino?",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                  ),
+                  const SizedBox(height: 7),
+                  BuscarHoteles(
+                    onChanged: (query) {
+                      setState(() {
+                        _searchQuery = query;
+                      });
+                    },
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              child: RefreshIndicator(
+                onRefresh: _recargarHoteles,
+                child: CustomScrollView(
+                  slivers: [
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const [
+                            SizedBox(height: 7),
+                            Text(
+                              "Popular",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 21),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SliverToBoxAdapter(
+                      child: const ScrollHorizontal(),
+                    ),
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const [
+                            SizedBox(height: 7),
+                            Text(
+                              "Ofertas",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 17),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (context, index) {
+                          return ListaHotelesHome(searchQuery: _searchQuery);
+                        },
+                        childCount: 1,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-
-              const SizedBox(height: 300),
-              Expanded(child: _buildListaHoteles()),
-            ],
-          ),
+            ),
+          ],
         ),
-      ),
-    );
-  }
-
-  Widget _buildListaHoteles() {
-    return RefreshIndicator(
-      onRefresh: _cargarHoteles,
-      child: FutureBuilder<List<Hotel>>(
-        future: _futureHoteles,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (snapshot.hasError) {
-            return Center(
-              child: Text('Error al obtener los hoteles: ${snapshot.error}'),
-            );
-          }
-          if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('No hay hoteles disponibles'));
-          }
-
-          final List<Hotel> hoteles = snapshot.data!;
-          final String query = _searchQuery.toLowerCase();
-
-          // Filtramos por nombre o ubicación
-          final List<Hotel> filteredHoteles =
-              hoteles.where((hotel) {
-                final bool matchesNombre = hotel.nombre.toLowerCase().contains(
-                  query,
-                );
-                final bool matchesUbicacion = hotel.ubicacion
-                    .toLowerCase()
-                    .contains(query);
-                return matchesNombre || matchesUbicacion;
-              }).toList();
-
-          if (_searchQuery.isNotEmpty && filteredHoteles.isEmpty) {
-            return const Center(child: Text('No se encontraron hoteles'));
-          }
-
-          return ListView.separated(
-            physics: const AlwaysScrollableScrollPhysics(),
-            itemCount: filteredHoteles.length,
-            separatorBuilder: (context, index) => const SizedBox(height: 12),
-            itemBuilder:
-                (context, index) =>
-                    HotelSeleccionado(hotel: filteredHoteles[index]),
-          );
-        },
       ),
     );
   }

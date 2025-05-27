@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 void dialogoCerrarSesion(BuildContext context) {
   showDialog(
     context: context,
-    barrierDismissible: false, //  Evita que se cierre al tocar fuera del cuadro
+    barrierDismissible: false, 
     builder: (BuildContext context) {
       final theme = Theme.of(context);
 
@@ -20,13 +20,13 @@ void dialogoCerrarSesion(BuildContext context) {
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.pop(context); //  Cierra el dialogo sin cerrar sesion
+              Navigator.pop(context); 
             },
             child: Text('Cancelar', style: TextStyle(color: theme.colorScheme.primary)),
           ),
           TextButton(
             onPressed: () {
-              Navigator.pop(context); //  Cierra el dialogo
+              Navigator.pop(context); 
               context.go('/home'); 
             },
             child: const Text('Cerrar', style: TextStyle(color: Colors.red)),

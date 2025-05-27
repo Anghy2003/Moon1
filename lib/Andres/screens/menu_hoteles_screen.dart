@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:moon_aplication/Andrea/models/hotel.dart';
 import 'package:moon_aplication/Andres/controller/hotel_controller.dart';
+import 'package:moon_aplication/Andres/widgets/gradiente_color_fondo.dart';
 import 'package:moon_aplication/Andres/widgets/menu_hoteles/buscar_hoteles.dart';
-import 'package:moon_aplication/Andres/widgets/menu_hoteles/hotel_seleccionado.dart';
+import 'package:moon_aplication/Andres/widgets/menu_hoteles/hotel_seleccionado.dart';// Importar la clase de gradiente
 
 class MenuHoteles extends StatefulWidget {
   const MenuHoteles({super.key});
@@ -13,12 +14,12 @@ class MenuHoteles extends StatefulWidget {
 
 class _MenuHotelesState extends State<MenuHoteles> {
   late Future<List<Hotel>> _futureHoteles;
-  String _searchQuery = ""; // Variable para almacenar el query de búsqueda
+  String _searchQuery = "";
 
   @override
   void initState() {
     super.initState();
-    _cargarHoteles(); 
+    _cargarHoteles();
   }
 
   Future<void> _cargarHoteles() async {
@@ -30,23 +31,37 @@ class _MenuHotelesState extends State<MenuHoteles> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(toolbarHeight: 0), 
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(5.0),
-          child: Column(
-            children: [
-              // Se actualiza el widget para que acepte el callback onChanged.
-              BuscarHoteles(
-                onChanged: (query) {
-                  setState(() {
-                    _searchQuery = query;
-                  });
-                },
-              ),
-              const SizedBox(height: 30),
-              Expanded(child: _buildListaHoteles()),
-            ],
+      appBar: AppBar(toolbarHeight: 0),
+      body: Container(
+        width: double.infinity, 
+        height: double.infinity,
+        decoration: const BoxDecoration(
+          gradient: GradienteColorFondo.backgroundGradient, // Llamada al gradiente
+        ),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Column(
+              children: [
+                const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Ofertas",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                  ),
+                ),
+                const SizedBox(height: 7),
+                BuscarHoteles(
+                  onChanged: (query) {
+                    setState(() {
+                      _searchQuery = query;
+                    });
+                  },
+                ),
+                const SizedBox(height: 4),
+                Expanded(child: _buildListaHoteles()),
+              ],
+            ),
           ),
         ),
       ),
