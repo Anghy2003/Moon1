@@ -47,7 +47,7 @@ class TarjetaPerfil extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Hola, Andrea',
+                      'Hola, Meche',
                       style: TextStyle(
                         fontSize: 18 * scaleFactor, 
                         fontWeight: FontWeight.bold,
