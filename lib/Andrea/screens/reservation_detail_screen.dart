@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:moon_aplication/Andrea/screens/metodo_pago.dart';
 
 class ReservaDetalladaScreen extends StatelessWidget {
   const ReservaDetalladaScreen({super.key});
@@ -30,11 +30,14 @@ class ReservaDetalladaScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Color(0xFFE6F9FF), // Color de fondo celeste suave
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        title: const Text(
+          '2/4',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+        ),
+        centerTitle: true, // ⬅️ Esto centra el título
+        backgroundColor: const Color(0xFFE0F7FA),
+        foregroundColor: Colors.black,
         elevation: 0,
-        leading: BackButton(color: Colors.black),
-        centerTitle: true,
-        title: const Text('2/4', style: TextStyle(color: Colors.black)),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.06),
@@ -123,7 +126,12 @@ class ReservaDetalladaScreen extends StatelessWidget {
                       ),
                     ),
                     onPressed: () {
-                       context.go('/metodo-pago');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MetodoPagoScreen(),
+                        ), // tu widget de destino
+                      );
                     },
                     child: Text(
                       'Metodo de Pago',

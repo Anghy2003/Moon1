@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:moon_aplication/Andrea/screens/payment_success_screen.dart';
 
 class MetodoPagoScreen extends StatefulWidget {
   const MetodoPagoScreen({super.key});
@@ -16,26 +16,24 @@ class _MetodoPagoScreenState extends State<MetodoPagoScreen> {
     final screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          '3/4',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+        ),
+        centerTitle: true, // ⬅️ Esto centra el título
+        backgroundColor: const Color(0xFFE0F7FA),
+        foregroundColor: Colors.black,
+        elevation: 0,
+      ),
+      
       backgroundColor: const Color(0xFFE0F7FA), // Celeste claro
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Título y paso
-             Row(
-  children: [
-    const Icon(Icons.arrow_back),
-    const Spacer(),
-    const Text(
-      '3/4',
-      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-    ),
-    const Spacer(),
-  ],
-),
-
+            children: [       
               const SizedBox(height: 16),
               Center(
                 child: Text(
@@ -95,8 +93,14 @@ class _MetodoPagoScreenState extends State<MetodoPagoScreen> {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                       context.go('/pago-exitoso');
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PagoExitosoScreen(),
+                        ), // tu widget de destino
+                      );
                     },
+
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.cyan,
                       padding: const EdgeInsets.symmetric(

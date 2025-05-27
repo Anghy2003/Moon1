@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:moon_aplication/Andrea/controllers/hotelControlador.dart';
 import 'package:moon_aplication/Andrea/models/hotel.dart';
+import 'package:moon_aplication/Andrea/screens/date_selection_screen.dart';
 
 
 class HoteldetallesScreen extends StatelessWidget {
@@ -12,7 +12,7 @@ class HoteldetallesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFebebf5),
+      backgroundColor: Color(0xFFE6F9FF), // Color de fondo celeste suave
       body: FutureBuilder<Hotel>(
         future: obtenerHotelPorId(idHotel),
         builder: (context, snapshot) {
@@ -168,10 +168,15 @@ class HoteldetallesScreen extends StatelessWidget {
                       const SizedBox(height: 20),
 Center(
   child: ElevatedButton(
+    
     onPressed: () {
-      context.go('/calendario');
-   
-    },
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CalendarScreen(),
+                        ), // tu widget de destino
+                      );
+                    },
     style: ElevatedButton.styleFrom(
       backgroundColor: Colors.cyan,
       foregroundColor: Colors.white,  // Color del texto explícito para que contraste
