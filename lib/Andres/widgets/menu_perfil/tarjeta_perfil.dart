@@ -15,8 +15,8 @@ class TarjetaPerfil extends StatelessWidget {
       child: Container(
         height: 132 * scaleFactor, 
         decoration: BoxDecoration(
-          color: theme.colorScheme.surface,
-          borderRadius: BorderRadius.circular(20 * scaleFactor), 
+          color: Colors.transparent, // Hace la tarjeta completamente transparente
+          borderRadius: BorderRadius.circular(20 * scaleFactor),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

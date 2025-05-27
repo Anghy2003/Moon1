@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moon_aplication/Andrea/models/hotel.dart'; // 🔥 Importa el modelo Hotel
+import 'package:moon_aplication/Andrea/models/hotel.dart'; 
 
 class ImagenTarjeta extends StatelessWidget {
   const ImagenTarjeta({
@@ -7,12 +7,12 @@ class ImagenTarjeta extends StatelessWidget {
     required this.hotel,
   });
 
-  final Hotel hotel; // 🔥 Ahora recibe un objeto `Hotel`
+  final Hotel hotel; 
 
   @override
   Widget build(BuildContext context) {
     return Image.network(
-      hotel.imagenPrincipal, // 🔥 Usa `hotel.imagenPrincipal` en lugar de `hotel['imageUrl']`
+      hotel.imagenPrincipal, 
       width: 160,
       height: 130,
       fit: BoxFit.cover,

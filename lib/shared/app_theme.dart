@@ -6,6 +6,7 @@ class AppTheme {
   ThemeData getTheme() => ThemeData(
     useMaterial3: true,
     colorScheme: ColorScheme.light(primary: primaryColor),
+    scaffoldBackgroundColor: Color(0xFFE6F9FF),//color de fondo 
 
     // Estilos de botones
     elevatedButtonTheme: ElevatedButtonThemeData(
@@ -29,7 +30,7 @@ class AppTheme {
     ),
   );
 
-  // 🔥 Método global para calcular el factor de escala basado en el tamaño del dispositivo
+  //  Método global para calcular el factor de escala basado en el tamaño del dispositivo
   static double scaleFactor(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
     return screenWidth / 400; // 400 es una referencia de tamaño base

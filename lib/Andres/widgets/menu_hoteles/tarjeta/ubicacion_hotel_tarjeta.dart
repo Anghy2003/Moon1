@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moon_aplication/Andrea/models/hotel.dart'; // 🔥 Importa el modelo Hotel
+import 'package:moon_aplication/Andrea/models/hotel.dart';
 
 class UbicacionHotelTarjeta extends StatelessWidget {
   const UbicacionHotelTarjeta({
@@ -7,13 +7,13 @@ class UbicacionHotelTarjeta extends StatelessWidget {
     required this.hotel,
   });
 
-  final Hotel hotel; // 🔥 Ahora recibe un objeto `Hotel`
+  final Hotel hotel; 
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Text(
-        hotel.ubicacion, // 🔥 Usa la propiedad correcta definida en `Hotel`
+        hotel.ubicacion, 
         style: const TextStyle(fontSize: 16),
         overflow: TextOverflow.ellipsis,
         maxLines: 1,

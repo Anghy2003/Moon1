@@ -14,7 +14,7 @@ class EstiloBotonPerfil extends StatelessWidget {
       child: OutlinedButton(
         onPressed: () {
           if (boton.containsKey('onPressed') && boton['onPressed'] != null) {
-            boton['onPressed']!(context); // 🔥 Pasa el `context` a la función
+            boton['onPressed']!(context); 
           }
         },
         style: OutlinedButton.styleFrom(
