@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:moon_aplication/Diego/widgets/logo_widget.dart';
 // import 'package:flutter_svg/flutter_svg.dart';
 import '../theme/theme.dart';
 import '../Buttons/botones_login.dart';
@@ -20,7 +19,18 @@ class PantallaLogin extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const LogoWidget(), // Aquí insertamos el widget del logo
+                  // Logo SVG
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(horizontal: 20),
+                  //   child: AspectRatio(
+                  //     aspectRatio: 1,
+                  //     child: SvgPicture.asset(
+                  //       "assets/moon_logo.svg", // Asegúrate que el archivo esté en tu carpeta assets
+                  //       fit: BoxFit.contain,
+                  //       alignment: Alignment.center,
+                  //     ),
+                  //   ),
+                  // ),
 
                   const SizedBox(height: 30),
 
