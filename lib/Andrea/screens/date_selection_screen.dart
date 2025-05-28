@@ -101,7 +101,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => ReservaDetalladaScreen(),
+                              builder: (context) => ReservaDetalladaScreen(hotel: widget.hotel,
+                                fechaCheckIn: _selectedCheckInDay,
+                                fechaCheckOut: _selectedCheckOutDay,),
                             ),
                           );
                         }

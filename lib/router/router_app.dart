@@ -1,7 +1,5 @@
 import 'package:go_router/go_router.dart';
-import 'package:moon_aplication/Andrea/screens/metodo_pago.dart';
-import 'package:moon_aplication/Andrea/screens/payment_success_screen.dart';
-import 'package:moon_aplication/Andrea/screens/reservation_detail_screen.dart';
+
 import 'package:moon_aplication/Diego/screens/Pantalla_Login.dart';
 import 'package:moon_aplication/home/botones/boton_home.dart';
 import 'package:moon_aplication/home/botones/boton_likes.dart';
@@ -50,18 +48,7 @@ final GoRouter router = GoRouter(
           path: '/perfil',
           builder: (context, state) => const BotonPerfil(),
         ),
-        GoRoute(
-          path: '/datos-pago',
-          builder: (context, state) => ReservaDetalladaScreen(),
-        ),
-        GoRoute(
-          path: '/metodo-pago',
-          builder: (context, state) => MetodoPagoScreen(),
-        ),
-        GoRoute(
-          path: '/pago-exitoso',
-          builder: (context, state) => PagoExitosoScreen(),
-        ),
+       
       ],
     ),
   ],

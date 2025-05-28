@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:moon_aplication/Andrea/models/hotel.dart';
 import 'package:moon_aplication/Andrea/screens/metodo_pago.dart';
 
 class ReservaDetalladaScreen extends StatelessWidget {
-  const ReservaDetalladaScreen({super.key});
+   final Hotel hotel;
+  final DateTime fechaCheckIn;
+  final DateTime fechaCheckOut;
+  const ReservaDetalladaScreen({super.key, required this.hotel, required this.fechaCheckIn, required this.fechaCheckOut});
 
   @override
   Widget build(BuildContext context) {
@@ -12,6 +16,7 @@ class ReservaDetalladaScreen extends StatelessWidget {
       return InputDecoration(
         labelText: label,
         labelStyle: TextStyle(
+          
           color: Colors.cyan[700],
           fontWeight: FontWeight.bold,
         ),
@@ -130,6 +135,7 @@ class ReservaDetalladaScreen extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (context) => MetodoPagoScreen(),
+
                         ), // tu widget de destino
                       );
                     },
