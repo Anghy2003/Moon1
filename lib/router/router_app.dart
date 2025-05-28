@@ -1,5 +1,4 @@
 import 'package:go_router/go_router.dart';
-import 'package:moon_aplication/Andrea/screens/date_selection_screen.dart';
 import 'package:moon_aplication/Andrea/screens/metodo_pago.dart';
 import 'package:moon_aplication/Andrea/screens/payment_success_screen.dart';
 import 'package:moon_aplication/Andrea/screens/reservation_detail_screen.dart';
@@ -54,7 +53,7 @@ final GoRouter router = GoRouter(
 
         GoRoute(
           path: '/calendario',
-          builder: (context, state) => CalendarScreen(),
+    //     builder: (context, state) => CalendarScreen(),
         ),
         GoRoute(
           path: '/datos-pago',
