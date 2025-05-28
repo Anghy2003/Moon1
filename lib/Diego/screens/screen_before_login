@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:moon_aplication/Diego/widgets/logo_widget.dart';
-// import 'package:flutter_svg/flutter_svg.dart';
 import '../theme/theme.dart';
-import '../Buttons/botones_login.dart';
+import '../widgets/logo_widget.dart'; // Asegúrate de ajustar la ruta según tu estructura
 
-class PantallaLogin extends StatelessWidget {
-  const PantallaLogin({super.key});
+class ScreenBeforeLogin extends StatelessWidget {
+  const ScreenBeforeLogin({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +22,6 @@ class PantallaLogin extends StatelessWidget {
 
                   const SizedBox(height: 30),
 
-                  // Título
                   Text(
                     "Reserva fácil y rápido",
                     style: Theme.of(context).textTheme.headlineLarge,
@@ -32,9 +29,7 @@ class PantallaLogin extends StatelessWidget {
                   ),
 
                   const SizedBox(height: 30),
-
-                  // Botones de autenticación
-                  const BotonesLogin(),
+                 
                 ],
               ),
             ),
