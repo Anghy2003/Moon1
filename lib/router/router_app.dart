@@ -53,7 +53,7 @@ final GoRouter router = GoRouter(
 
         GoRoute(
           path: '/calendario',
-    //     builder: (context, state) => CalendarScreen(),
+        builder: (context, state) => CalendarScreen(),
         ),
         GoRoute(
           path: '/datos-pago',
