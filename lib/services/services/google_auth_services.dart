@@ -16,18 +16,18 @@ class GoogleAuthService {
       );
 
       final userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
-
       final user = userCredential.user;
+
       if (user != null) {
-        final doc = FirebaseFirestore.instance.collection('usuarios').doc(user.uid);
-        final snapshot = await doc.get();
+        final docRef = FirebaseFirestore.instance.collection('usuarios').doc(user.uid);
+        final snapshot = await docRef.get();
 
         if (!snapshot.exists) {
-          await doc.set({
+          await docRef.set({
             'uid': user.uid,
-            'nombre': user.displayName,
-            'correo': user.email,
-            'fotoUrl': user.photoURL,
+            'nombre': user.displayName ?? 'Usuario desconocido',
+            'correo': user.email ?? 'Correo no disponible',
+            'fotoUrl': user.photoURL ?? '',
             'fechaRegistro': FieldValue.serverTimestamp(),
           });
         }
@@ -35,8 +35,21 @@ class GoogleAuthService {
 
       return userCredential;
     } catch (e) {
-      print("Error en signInWithGoogle: $e");
+      // print("Error en signInWithGoogle: $e");
       return null;
     }
+  }
+
+  static Future<void> signOut() async {
+    try {
+      await GoogleSignIn().signOut();
+      await FirebaseAuth.instance.signOut();
+    } catch (e) {
+      // print("Error al cerrar sesión: $e");
+    }
+  }
+
+  static User? getCurrentUser() {
+    return FirebaseAuth.instance.currentUser;
   }
 }

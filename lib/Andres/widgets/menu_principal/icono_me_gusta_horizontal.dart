@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
 class IconoMeGustaHorizontal extends StatelessWidget {
-  final Color color; // Permite cambiar el color dinámicamente
+  final Color color; 
 
   const IconoMeGustaHorizontal({
     super.key,
-    this.color = Colors.red, // Rojo por defecto
+    this.color = Colors.red, 
   });
 
   @override
   Widget build(BuildContext context) {
     return Icon(
       Icons.favorite,
-      color: color, // Usa el color pasado como parámetro
+      color: color, 
       size: 22,
     );
   }

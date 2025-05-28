@@ -5,6 +5,7 @@ class UsuarioActual {
   static String nombre = '';
   static String correo = '';
   static String fotoUrl = '';
+  static String ubicacion = '';//no  guardando en la Base (se calcula cada sesion)
 
   static void cargarDesdeFirebase(User user) {
     uid = user.uid;
