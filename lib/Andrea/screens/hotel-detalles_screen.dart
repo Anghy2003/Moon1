@@ -3,18 +3,32 @@ import 'package:moon_aplication/Andrea/controllers/hotelControlador.dart';
 import 'package:moon_aplication/Andrea/models/hotel.dart';
 import 'package:moon_aplication/Andrea/screens/date_selection_screen.dart';
 
-
-class HoteldetallesScreen extends StatelessWidget {
+class HoteldetallesScreen extends StatefulWidget {
   final String idHotel;
 
   const HoteldetallesScreen({super.key, required this.idHotel});
 
   @override
+  State<HoteldetallesScreen> createState() => _HoteldetallesScreenState();
+}
+
+class _HoteldetallesScreenState extends State<HoteldetallesScreen> {
+  String? imagenSeleccionada;
+  bool esFavorito = false;
+  Future<Hotel>? _hotelFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _hotelFuture = obtenerHotelPorId(widget.idHotel);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFE6F9FF), // Color de fondo celeste suave
+      backgroundColor: const Color(0xFFE6F9FF),
       body: FutureBuilder<Hotel>(
-        future: obtenerHotelPorId(idHotel),
+        future: _hotelFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -25,78 +39,136 @@ class HoteldetallesScreen extends StatelessWidget {
           }
 
           final hotel = snapshot.data!;
+          imagenSeleccionada ??= hotel.imagenPrincipal;
 
           return Column(
             children: [
               const SizedBox(height: 30),
-            Stack(
-  children: [
-    Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(30),
-        child: Image.network(
-          hotel.imagenPrincipal,
-          height: 280,
-          width: double.infinity,
-          fit: BoxFit.cover,
-        ),
-      ),
-    ),
-    // Botón flecha en esquina superior izquierda con fondo blanco circular
-    Positioned(
-      top: 40,
-      left: 20,
-      child: GestureDetector(
-        onTap: () => Navigator.pop(context),
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            shape: BoxShape.circle,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black26,
-                blurRadius: 4,
-                offset: Offset(0, 2),
-              ),
-            ],
-          ),
-          padding: const EdgeInsets.all(6),
-          child: const Icon(
-            Icons.arrow_back,
-            size: 28,
-            color: Color.fromARGB(255, 7, 7, 7),
-          ),
-        ),
-      ),
-    ),
-    Positioned(
-      bottom: 20,
-      left: 30,
-      right: 40,
-      child: SizedBox(
-        height: 60,
-        child: ListView(
-          scrollDirection: Axis.horizontal,
-          children: hotel.imagenes.map((imgUrl) {
-            return Container(
-              margin: const EdgeInsets.symmetric(horizontal: 6),
-              width: 50,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                image: DecorationImage(
-                  image: NetworkImage(imgUrl),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            );
-          }).toList(),
-        ),
-      ),
-    ),
-  ],
-),
+              Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(30),
+                      child: Image.network(
+                        imagenSeleccionada!,
+                        height: 280,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 40,
+                    left: 20,
+                    child: GestureDetector(
+                      onTap: () => Navigator.pop(context),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black26,
+                              blurRadius: 4,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        padding: const EdgeInsets.all(6),
+                        child: const Icon(
+                          Icons.arrow_back,
+                          size: 28,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 40,
+                    right: 20,
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          esFavorito = !esFavorito;
+                        });
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black26,
+                              blurRadius: 4,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        padding: const EdgeInsets.all(6),
+                        child: Icon(
+                          esFavorito ? Icons.favorite : Icons.favorite_border,
+                          size: 28,
+                          color: Colors.redAccent,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 20,
+                    left: 30,
+                    right: 30,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 241, 243, 244).withOpacity(0.44),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: SizedBox(
+                        height: 70,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: hotel.imagenes.length,
+                          itemBuilder: (context, index) {
+                            final imgUrl = hotel.imagenes[index];
 
+                            return GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  imagenSeleccionada = imgUrl;
+                                });
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.symmetric(horizontal: 6),
+                                width: 60,
+                                height: 60,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  border: Border.all(
+                                    color: imagenSeleccionada == imgUrl
+                                        ? Colors.white
+                                        : Colors.transparent,
+                                    width: 2,
+                                  ),
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: Image.network(
+                                    imgUrl,
+                                    width: 60,
+                                    height: 60,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -109,11 +181,14 @@ class HoteldetallesScreen extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const Row(
+                      Row(
                         children: [
-                          Icon(Icons.star, color: Colors.amber, size: 20),
-                          SizedBox(width: 4),
-                          Text("4.5 (355 Reviews)", style: TextStyle(fontSize: 14)),
+                          const Icon(Icons.star, color: Colors.amber, size: 20),
+                          const SizedBox(width: 4),
+                          Text(
+                            "${hotel.rating.toStringAsFixed(1)} (355 Reviews)",
+                            style: const TextStyle(fontSize: 14),
+                          ),
                         ],
                       ),
                       const SizedBox(height: 10),
@@ -124,7 +199,10 @@ class HoteldetallesScreen extends StatelessWidget {
                       const SizedBox(height: 24),
                       const Text(
                         "Facilidades",
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       const SizedBox(height: 12),
                       SingleChildScrollView(
@@ -146,7 +224,10 @@ class HoteldetallesScreen extends StatelessWidget {
                                   const SizedBox(height: 8),
                                   Text(
                                     f.label,
-                                    style: TextStyle(fontSize: 13, color: Colors.grey[600]),
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      color: Colors.grey[600],
+                                    ),
                                     textAlign: TextAlign.center,
                                   ),
                                 ],
@@ -158,45 +239,56 @@ class HoteldetallesScreen extends StatelessWidget {
                       const SizedBox(height: 20),
                       const Text(
                         "Total",
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       Text(
                         "\$${hotel.precio.toStringAsFixed(2)}",
                         style: const TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.bold, color: Colors.green),
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.green,
+                        ),
                       ),
                       const SizedBox(height: 20),
-Center(
-  child: ElevatedButton(
-    
-    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => CalendarScreen(),
-                        ), // tu widget de destino
-                      );
-                    },
-    style: ElevatedButton.styleFrom(
-      backgroundColor: Colors.cyan,
-      foregroundColor: Colors.white,  // Color del texto explícito para que contraste
-      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 14),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(30),
-      ),
-    ),
-    child: const Text(
-      'Reservar',
-      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-    ),
-  ),
-),
-const SizedBox(height: 10),]
-
+                      Center(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => CalendarScreen(hotel: hotel),
+                                
+                              ),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.cyan,
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 40,
+                              vertical: 14,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                          ),
+                          child: const Text(
+                            'Reservar',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                    ],
                   ),
-                  ), 
                 ),
-              
+              ),
             ],
           );
         },
@@ -205,7 +297,6 @@ const SizedBox(height: 10),]
   }
 }
 
-// Esta función convierte un nombre de ícono a IconData
 IconData _getIconFromString(String iconName) {
   switch (iconName) {
     case 'wifi':

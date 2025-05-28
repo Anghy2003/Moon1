@@ -52,7 +52,7 @@ class PagoExitosoScreen extends StatelessWidget {
             const SizedBox(height: 30),
             ElevatedButton(
               onPressed: () {
-                // Acción al continuar
+               
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xff00c4cc),
