@@ -16,7 +16,7 @@ void dialogoCerrarSesion(BuildContext context) {
           'Cerrar Sesión',
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
-        content: const Text('¿Estás seguro de salir de la cuenta de Andrea Illescas?'),
+        content: const Text('¿Estás seguro de salir de la cuenta de Meche?'),
         actions: [
           TextButton(
             onPressed: () {
@@ -27,7 +27,7 @@ void dialogoCerrarSesion(BuildContext context) {
           TextButton(
             onPressed: () {
               Navigator.pop(context); 
-              context.go('/home'); 
+              context.go('/first'); 
             },
             child: const Text('Cerrar', style: TextStyle(color: Colors.red)),
           ),
