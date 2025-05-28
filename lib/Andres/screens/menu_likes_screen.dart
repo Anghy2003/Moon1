@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:moon_aplication/Andrea/models/hotel.dart';
-import 'package:moon_aplication/Andres/controller/hotel_controller.dart';
 import 'package:moon_aplication/Andres/widgets/gradiente_color_fondo.dart';
 import 'package:moon_aplication/Andres/widgets/menu_likes/buscar_hoteles_like.dart';
-import 'package:moon_aplication/Andres/widgets/menu_likes/lista_hoteles_like.dart';  // Importa la nueva clase
+import 'package:moon_aplication/Andres/widgets/menu_likes/lista_hoteles_like.dart';
+import 'package:moon_aplication/services/services/usuario_actual.dart';
 
 class MenuLikes extends StatefulWidget {
   const MenuLikes({super.key});
@@ -19,12 +20,37 @@ class _MenuLikesState extends State<MenuLikes> {
   @override
   void initState() {
     super.initState();
-    _cargarHoteles();
+    _futureHoteles = obtenerHotelesLike(); 
   }
 
-  Future<void> _cargarHoteles() async {
+  
+  Future<List<Hotel>> obtenerHotelesLike() async {
+    final FirebaseFirestore db = FirebaseFirestore.instance;
+    final String idUsuario = UsuarioActual.uid;
+
+    if (idUsuario.isEmpty) {
+      return [];
+    }
+
+    final querySnapshot = await db.collection('usuariosLikes')
+        .where('idUsuario', isEqualTo: idUsuario)
+        .get();
+
+    List<Hotel> hotelesLiked = [];
+
+    for (var doc in querySnapshot.docs) {
+      final hotelRef = await db.collection('hoteles').doc(doc['idHotel']).get();
+      if (hotelRef.exists) {
+        hotelesLiked.add(Hotel.fromMap(hotelRef.data()!, hotelRef.id));
+      }
+    }
+
+    return hotelesLiked;
+  }
+
+  Future<void> _cargarHotelesLikeados() async {
     setState(() {
-      _futureHoteles = obtenerTodosLosHoteles();
+      _futureHoteles = obtenerHotelesLike();
     });
   }
 
@@ -46,7 +72,7 @@ class _MenuLikesState extends State<MenuLikes> {
                 const Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    " Favoritos", //todo: VERIFICAR SI QUIEREN UN TITULO
+                    " Favoritos", 
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
                   ),
                 ),
@@ -61,10 +87,9 @@ class _MenuLikesState extends State<MenuLikes> {
                 const SizedBox(height: 4),
                 Expanded(
                   child: ListaHotelesLike(
-                    futureHoteles: _futureHoteles,
+                    futureHoteles: _futureHoteles, 
                     searchQuery: _searchQuery,
-                    onRefresh: _cargarHoteles,
-                    //todo: REEMPLAZAR POR HOTELES LIKEADOS
+                    onRefresh: _cargarHotelesLikeados,
                   ),
                 ),
               ],

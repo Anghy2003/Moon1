@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:moon_aplication/Andres/controller/ubicacion_service.dart';
 import 'package:moon_aplication/services/services/google_auth_services.dart';
 import 'package:moon_aplication/services/services/usuario_actual.dart'; // Necesario para context.go
-
 
 class BotonesLogin extends StatelessWidget {
   const BotonesLogin({super.key});
@@ -31,6 +31,16 @@ class BotonesLogin extends StatelessWidget {
           onPressed: () async {
             final userCredential = await GoogleAuthService.signInWithGoogle();
             final user = userCredential?.user;
+
+            Future<void> cargarUbicacion() async {
+              String ubicacionObtenida =
+                  await UbicacionService.obtenerUbicacion();
+              UsuarioActual.ubicacion = ubicacionObtenida;
+            }
+
+
+
+            cargarUbicacion();
 
             if (user != null) {
               UsuarioActual.cargarDesdeFirebase(user);

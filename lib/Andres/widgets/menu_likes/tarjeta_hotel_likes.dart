@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:moon_aplication/Andrea/models/hotel.dart';
 import 'package:moon_aplication/Andres/widgets/menu_hoteles/tarjeta/imagen_tarjeta.dart';
+import 'package:moon_aplication/Andres/widgets/menu_likes/hoteles_megusta_interactivo.dart';
 import 'package:moon_aplication/shared/app_theme.dart';
 
 class TarjetaHotelLikes extends StatelessWidget {
@@ -27,7 +28,6 @@ class TarjetaHotelLikes extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(2, 1, 20, 1),
             child: Row(
               children: [
-                
                 ClipRRect(
                   borderRadius: BorderRadius.circular(25),
                   child: SizedBox(
@@ -58,11 +58,7 @@ class TarjetaHotelLikes extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
-                          const Icon(
-                            Icons.favorite,
-                            color: Colors.red,
-                            size: 24,
-                          ),
+                          HotelesMeGustaInteractivo(hotelId: hotel.id),
                         ],
                       ),
                       const SizedBox(height: 8),
@@ -72,7 +68,7 @@ class TarjetaHotelLikes extends StatelessWidget {
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: Colors.green,//todo: color del precio
+                          color: Colors.green,
                         ),
                       ),
                       const SizedBox(height: 8),
