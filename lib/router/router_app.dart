@@ -50,11 +50,6 @@ final GoRouter router = GoRouter(
           path: '/perfil',
           builder: (context, state) => const BotonPerfil(),
         ),
-
-        GoRoute(
-          path: '/calendario',
-        builder: (context, state) => CalendarScreen(),
-        ),
         GoRoute(
           path: '/datos-pago',
           builder: (context, state) => ReservaDetalladaScreen(),
