@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moon_aplication/Diego/widgets/crazy_logo.dart';
 //import 'package:moon_aplication/Diego/widgets/logo_widget.dart';
 // import 'package:flutter_svg/flutter_svg.dart';
 import '../theme/theme.dart';
@@ -20,7 +21,7 @@ class PantallaLogin extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-               //   const LogoWidget(), // Aquí insertamos el widget del logo
+                 const CrazyLogo(), // Aquí insertamos el widget del logo
 
                   const SizedBox(height: 30),
 
