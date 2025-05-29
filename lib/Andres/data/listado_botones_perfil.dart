@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:moon_aplication/Andres/screens/menu_reservas_screen.dart';
 import 'package:moon_aplication/Andres/widgets/menu_perfil/dialogo_cerrar_sesion.dart';
 
 final List<Map<String, dynamic>> listadoBotonesPerfil = [
@@ -14,7 +14,7 @@ final List<Map<String, dynamic>> listadoBotonesPerfil = [
     'text': 'Mis Reservas',
     'icon': Icons.calendar_month,
     'onPressed': (BuildContext context) {
-      context.go('/reservar'); 
+      Navigator.push(context, MaterialPageRoute(builder: (context)=>MenuReservasScreen()));
     },
   },
   

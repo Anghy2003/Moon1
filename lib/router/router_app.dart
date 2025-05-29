@@ -1,6 +1,6 @@
 import 'package:go_router/go_router.dart';
 
-import 'package:moon_aplication/Diego/screens/Pantalla_Login.dart';
+import 'package:moon_aplication/Diego/screens/screen_before_login.dart';
 import 'package:moon_aplication/home/botones/boton_home.dart';
 import 'package:moon_aplication/home/botones/boton_likes.dart';
 import 'package:moon_aplication/home/botones/boton_perfil.dart';
@@ -15,7 +15,7 @@ final GoRouter router = GoRouter(
       path: '/first',
       builder:
           (context, state) =>
-              const PantallaLogin(), // Aquí agregamos FirstScreen
+              const ScreenBeforeLogin(), 
     ),
 
     ShellRoute(
@@ -29,7 +29,7 @@ final GoRouter router = GoRouter(
           path: '/first',
           builder:
               (context, state) =>
-                  const PantallaLogin(), // Aquí agregamos FirstScreen
+                  const ScreenBeforeLogin(), // Aquí agregamos FirstScreen
         ),
 
         GoRoute(path: '/home', builder: (context, state) => const BotonHome()),

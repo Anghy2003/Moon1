@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moon_aplication/Andres/screens/menu_perfil.dart'; // 🔥 Importa la pantalla de perfil
+import 'package:moon_aplication/Andres/screens/menu_perfil_screen.dart'; // 🔥 Importa la pantalla de perfil
 
 class BotonPerfil extends StatelessWidget {
   const BotonPerfil({super.key});
