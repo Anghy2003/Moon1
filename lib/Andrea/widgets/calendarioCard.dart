@@ -15,15 +15,13 @@ class CalendarioCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Container(
-      height: 260, // Altura fija
+      height: 260,
       decoration: BoxDecoration(
-        gradient: LinearGradient(
+        gradient: const LinearGradient(
           colors: [
-            const Color.fromARGB(255, 129, 251, 251),
-            theme.primaryColor,
+            Color(0xFFB2EBF2), // Celeste claro arriba
+            Color(0xFF00BCD4), // Turquesa abajo
           ],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
@@ -32,23 +30,26 @@ class CalendarioCard extends StatelessWidget {
       ),
       padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
       child: TableCalendar(
-        firstDay: DateTime.utc(2000, 1, 1),
+        firstDay: DateTime.now(),
         lastDay: DateTime.utc(2100, 12, 31),
         focusedDay: focusedDay,
         selectedDayPredicate: (day) => isSameDay(selectedDay, day),
         onDaySelected: onDaySelected,
+        enabledDayPredicate: (day) {
+          return !day.isBefore(DateTime.now().subtract(const Duration(days: 1)));
+        },
         rowHeight: 33,
         daysOfWeekHeight: 18,
         calendarStyle: const CalendarStyle(
           defaultTextStyle: TextStyle(
             fontSize: 11,
             color: Colors.white,
-            fontWeight: FontWeight.bold, // Negrita para los días normales
+            fontWeight: FontWeight.bold,
           ),
           weekendTextStyle: TextStyle(
             fontSize: 11,
             color: Colors.black,
-            fontWeight: FontWeight.bold, // Negrita para los fines de semana
+            fontWeight: FontWeight.bold,
           ),
           todayDecoration: BoxDecoration(
             color: Color.fromARGB(142, 255, 34, 0),
@@ -61,7 +62,7 @@ class CalendarioCard extends StatelessWidget {
           selectedTextStyle: TextStyle(
             color: Colors.blue,
             fontSize: 11,
-            fontWeight: FontWeight.bold, // Negrita para el día seleccionado
+            fontWeight: FontWeight.bold,
           ),
           outsideDaysVisible: false,
         ),
@@ -80,12 +81,12 @@ class CalendarioCard extends StatelessWidget {
           weekdayStyle: TextStyle(
             fontSize: 10,
             color: Colors.white,
-            fontWeight: FontWeight.bold, // Negrita para días de semana
+            fontWeight: FontWeight.bold,
           ),
           weekendStyle: TextStyle(
             fontSize: 10,
             color: Colors.black,
-            fontWeight: FontWeight.bold, // Negrita para fines de semana
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),
