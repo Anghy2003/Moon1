@@ -119,9 +119,17 @@ class _HoteldetallesScreenState extends State<HoteldetallesScreen> {
                     left: 30,
                     right: 30,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 241, 243, 244).withOpacity(0.44),
+                        color: const Color.fromARGB(
+                          255,
+                          241,
+                          243,
+                          244,
+                        ).withOpacity(0.44),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: SizedBox(
@@ -139,15 +147,18 @@ class _HoteldetallesScreenState extends State<HoteldetallesScreen> {
                                 });
                               },
                               child: Container(
-                                margin: const EdgeInsets.symmetric(horizontal: 6),
+                                margin: const EdgeInsets.symmetric(
+                                  horizontal: 6,
+                                ),
                                 width: 60,
                                 height: 60,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(12),
                                   border: Border.all(
-                                    color: imagenSeleccionada == imgUrl
-                                        ? Colors.white
-                                        : Colors.transparent,
+                                    color:
+                                        imagenSeleccionada == imgUrl
+                                            ? Colors.white
+                                            : Colors.transparent,
                                     width: 2,
                                   ),
                                 ),
@@ -208,50 +219,52 @@ class _HoteldetallesScreenState extends State<HoteldetallesScreen> {
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(
-                          children: hotel.facilidades.map((f) {
-                            final icon = _getIconFromString(f.icon);
-                            return Container(
-                              width: 80,
-                              margin: const EdgeInsets.only(right: 12),
-                              padding: const EdgeInsets.all(12),
-                              decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.8),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Column(
-                                children: [
-                                  Icon(icon, color: Colors.grey[500]),
-                                  const SizedBox(height: 8),
-                                  Text(
-                                    f.label,
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                      color: Colors.grey[600],
-                                    ),
-                                    textAlign: TextAlign.center,
+                          children:
+                              hotel.facilidades.map((f) {
+                                final icon = _getIconFromString(f.icon);
+                                return Container(
+                                  width: 80,
+                                  margin: const EdgeInsets.only(right: 12),
+                                  padding: const EdgeInsets.all(12),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white.withOpacity(0.8),
+                                    borderRadius: BorderRadius.circular(20),
                                   ),
-                                ],
-                              ),
-                            );
-                          }).toList(),
+                                  child: Column(
+                                    children: [
+                                      Icon(icon, color: Colors.grey[500]),
+                                      const SizedBox(height: 8),
+                                      Text(
+                                        f.label,
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          color: Colors.grey[600],
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }).toList(),
                         ),
                       ),
                       const SizedBox(height: 20),
                       const Text(
-                        "Total",
+                        "Total por Noche",
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       Text(
-                        "\$${hotel.precio.toStringAsFixed(2)}",
+                        "\$${hotel.precioNoche.toStringAsFixed(2)}",
                         style: const TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
                           color: Colors.green,
                         ),
                       ),
+
                       const SizedBox(height: 20),
                       Center(
                         child: ElevatedButton(
@@ -259,8 +272,8 @@ class _HoteldetallesScreenState extends State<HoteldetallesScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => CalendarScreen(hotel: hotel),
-                                
+                                builder:
+                                    (context) => CalendarScreen(hotel: hotel),
                               ),
                             );
                           },

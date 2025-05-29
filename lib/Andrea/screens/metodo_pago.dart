@@ -1,8 +1,31 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:moon_aplication/Andrea/models/hotel.dart';
 import 'package:moon_aplication/Andrea/screens/payment_success_screen.dart';
+import 'package:moon_aplication/services/services/usuario_actual.dart';
+
 
 class MetodoPagoScreen extends StatefulWidget {
-  const MetodoPagoScreen({super.key});
+  final Hotel hotel;
+  final DateTime fechaCheckIn;
+  final DateTime fechaCheckOut;
+  final String nombre;
+  final String contacto;
+  final String tipoId;
+  final String numeroId;
+  final String miembros;
+
+  const MetodoPagoScreen({
+    super.key,
+    required this.hotel,
+    required this.fechaCheckIn,
+    required this.fechaCheckOut,
+    required this.nombre,
+    required this.contacto,
+    required this.tipoId,
+    required this.numeroId,
+    required this.miembros, required double total, required String userId,
+  });
 
   @override
   State<MetodoPagoScreen> createState() => _MetodoPagoScreenState();
@@ -11,9 +34,49 @@ class MetodoPagoScreen extends StatefulWidget {
 class _MetodoPagoScreenState extends State<MetodoPagoScreen> {
   String _selectedMethod = 'credit_card';
 
+  Future<void> _procesarPago() async {
+    // Calcular cantidad de noches
+    int cantidadNoches = widget.fechaCheckOut.difference(widget.fechaCheckIn).inDays;
+    double total = cantidadNoches * widget.hotel.precioNoche;
+
+    final reservaData = {
+      'usuarioId': UsuarioActual.uid, // Solo el ID del usuario
+      'hotel': {
+        'id': widget.hotel.id,
+        'nombre': widget.hotel.nombre,
+        'descripcion': widget.hotel.descripcion,
+        'precioNoche': widget.hotel.precioNoche,
+      },
+      'fechaCheckIn': widget.fechaCheckIn.toIso8601String(),
+      'fechaCheckOut': widget.fechaCheckOut.toIso8601String(),
+      'personaResponsable': widget.nombre,
+      'numeroContacto': widget.contacto,
+      'tipoId': widget.tipoId,
+      'numeroId': widget.numeroId,
+      'miembros': widget.miembros,
+      'metodoPago': _selectedMethod,
+      'total': total,
+      'fechaReserva': DateTime.now().toIso8601String(),
+    };
+
+    await FirebaseFirestore.instance.collection('reservas').add(reservaData);
+
+    if (!mounted) return;
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PagoExitosoScreen(
+          descripcionHotel: widget.hotel.descripcion,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
+    final total = widget.hotel.precioNoche *
+        widget.fechaCheckOut.difference(widget.fechaCheckIn).inDays;
 
     return Scaffold(
       appBar: AppBar(
@@ -21,23 +84,22 @@ class _MetodoPagoScreenState extends State<MetodoPagoScreen> {
           '3/4',
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
         ),
-        centerTitle: true, // ⬅️ Esto centra el título
+        centerTitle: true,
         backgroundColor: const Color(0xFFE0F7FA),
         foregroundColor: Colors.black,
         elevation: 0,
       ),
-      
-      backgroundColor: const Color(0xFFE0F7FA), // Celeste claro
+      backgroundColor: const Color(0xFFE0F7FA),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [       
+            children: [
               const SizedBox(height: 16),
               Center(
                 child: Text(
-                  'Metodo de Pago',
+                  'Método de Pago',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: screenWidth * 0.06,
@@ -45,16 +107,15 @@ class _MetodoPagoScreenState extends State<MetodoPagoScreen> {
                 ),
               ),
               const SizedBox(height: 32),
-              // Opciones de pago
               _buildPaymentOption(
                 icon: Icons.credit_card,
-                label: 'Tarjeta de Credito',
+                label: 'Tarjeta de Crédito',
                 value: 'credit_card',
               ),
               const SizedBox(height: 16),
               _buildPaymentOption(
                 icon: Icons.account_balance_wallet,
-                label: 'Pay Pal',
+                label: 'PayPal',
                 value: 'paypal',
               ),
               const SizedBox(height: 16),
@@ -73,17 +134,16 @@ class _MetodoPagoScreenState extends State<MetodoPagoScreen> {
                 ),
               ),
               const Spacer(),
-              // Total + botón
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Column(
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Total'),
+                      const Text('Total'),
                       Text(
-                        '\$799',
-                        style: TextStyle(
+                        '\$${total.toStringAsFixed(2)}',
+                        style: const TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
                           color: Colors.teal,
@@ -92,15 +152,7 @@ class _MetodoPagoScreenState extends State<MetodoPagoScreen> {
                     ],
                   ),
                   ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => PagoExitosoScreen(),
-                        ), // tu widget de destino
-                      );
-                    },
-
+                    onPressed: _procesarPago,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.cyan,
                       padding: const EdgeInsets.symmetric(
