@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class BuscarHotelesLiked extends StatelessWidget {
+class BuscarHotelesReserva extends StatelessWidget {
   final ValueChanged<String> onChanged;
 
-  const BuscarHotelesLiked({super.key, required this.onChanged});
+  const BuscarHotelesReserva({super.key, required this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class BuscarHotelesLiked extends StatelessWidget {
         child: TextField(
           onChanged: onChanged,
           decoration: InputDecoration(
-            hintText: 'Buscar hoteles favoritos',
+            hintText: 'Buscar hoteles reservados',
             hintStyle: TextStyle(color: theme.colorScheme.onSurfaceVariant),
             prefixIcon: Icon(Icons.search, color: theme.colorScheme.onSurfaceVariant),
             filled: true,

@@ -1,9 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart'; // Importante para usar context.go()
+import 'package:moon_aplication/Diego/widgets/crazy_logo.dart';
 import '../theme/theme.dart';
-import '../widgets/logo_widget.dart'; // Asegúrate de ajustar la ruta según tu estructura
 
-class ScreenBeforeLogin extends StatelessWidget {
+class ScreenBeforeLogin extends StatefulWidget {
   const ScreenBeforeLogin({super.key});
+
+  @override
+  State<ScreenBeforeLogin> createState() => _ScreenBeforeLoginState();
+}
+
+class _ScreenBeforeLoginState extends State<ScreenBeforeLogin> {
+  @override
+  void initState() {
+    super.initState();
+
+    // Después de 1 segundo, navega a /login usando GoRouter
+    Future.delayed(const Duration(seconds: 3), () {
+      if (!mounted) return;
+      context.go('/login'); // <-- Usa GoRouter
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,18 +35,14 @@ class ScreenBeforeLogin extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const LogoWidget(), // Aquí insertamos el widget del logo
-
+                  const CrazyLogo(),
                   const SizedBox(height: 30),
-
                   Text(
                     "Reserva fácil y rápido",
                     style: Theme.of(context).textTheme.headlineLarge,
                     textAlign: TextAlign.center,
                   ),
-
                   const SizedBox(height: 30),
-                 
                 ],
               ),
             ),

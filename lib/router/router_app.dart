@@ -1,38 +1,40 @@
 import 'package:go_router/go_router.dart';
-
-import 'package:moon_aplication/Diego/screens/Pantalla_Login.dart';
+import 'package:moon_aplication/Diego/screens/screen_before_login.dart';
+import 'package:moon_aplication/Diego/screens/pantalla_login.dart';
 import 'package:moon_aplication/home/botones/boton_home.dart';
 import 'package:moon_aplication/home/botones/boton_likes.dart';
 import 'package:moon_aplication/home/botones/boton_perfil.dart';
 import 'package:moon_aplication/home/botones/boton_reservar.dart';
 import 'package:moon_aplication/home/menu_navegacion.dart';
 
-//Aqui pondremos todas las rutas que tendra el programita Ü
+/// Configuración de rutas del programa
 final GoRouter router = GoRouter(
-  initialLocation: '/first', // Ahora la pantalla inicial será "FirstScreen"
+  initialLocation: '/first', // Pantalla inicial
   routes: [
+
+    // Ruta para la pantalla de bienvenida antes del login
     GoRoute(
       path: '/first',
-      builder:
-          (context, state) =>
-              const PantallaLogin(), // Aquí agregamos FirstScreen
+      builder: (context, state) => const ScreenBeforeLogin(),
     ),
 
+    // Ruta para la pantalla de login
+    GoRoute(
+      path: '/login',
+      builder: (context, state) => const PantallaLogin(),
+    ),
+
+    // Rutas principales con menú de navegación
     ShellRoute(
-      // El ShellRoute envuelve las rutas hijas con MenuNavegacion,
-      // de modo que el scaffold y la barra se mantienen fijos.
       builder: (context, state, child) {
         return MenuNavegacion(child: child);
       },
       routes: [
-        GoRoute(
-          path: '/first',
-          builder:
-              (context, state) =>
-                  const PantallaLogin(), // Aquí agregamos FirstScreen
-        ),
 
-        GoRoute(path: '/home', builder: (context, state) => const BotonHome()),
+        GoRoute(
+          path: '/home',
+          builder: (context, state) => const BotonHome(),
+        ),
 
         GoRoute(
           path: '/reservar',
@@ -48,7 +50,6 @@ final GoRouter router = GoRouter(
           path: '/perfil',
           builder: (context, state) => const BotonPerfil(),
         ),
-       
       ],
     ),
   ],
