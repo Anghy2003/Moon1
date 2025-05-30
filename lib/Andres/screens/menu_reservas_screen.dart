@@ -19,14 +19,14 @@ class _MenuReservasScreenState extends State<MenuReservasScreen> {
   @override
   void initState() {
     super.initState();
-    _cargarReservas();  // ✅ Se carga inicialmente
+    _cargarReservas();  
   }
 
-  /// ✅ Cargar reservas cada vez que la pantalla aparece
+   
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _cargarReservas();  // 🔥 Se ejecuta cuando la pantalla cambia
+    _cargarReservas();   
   }
 
   Future<void> _cargarReservas() async {

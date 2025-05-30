@@ -15,7 +15,7 @@ class ReservasController {
     }
     try {
       final querySnapshot = await _db.collection('reservas')
-          .where('idUsuario', isEqualTo: idUsuario)
+          .where('usuarioId', isEqualTo: idUsuario)
           .get();
       List<Hotel> hotelesReservados = [];
       for (var doc in querySnapshot.docs) {
@@ -44,7 +44,7 @@ class ReservasController {
     }
     try {
       final querySnapshot = await _db.collection('reservas')
-          .where('idUsuario', isEqualTo: idUsuario)
+          .where('usuarioId', isEqualTo: idUsuario)
           .get();
 
       List<Map<String, dynamic>> reservasConHoteles = [];

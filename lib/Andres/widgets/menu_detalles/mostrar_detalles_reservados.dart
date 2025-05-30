@@ -11,7 +11,7 @@ class MostrarDetallesReservados extends StatelessWidget {
   Widget build(BuildContext context) {
     return ExpansionTile(
       title: const Text(
-        "Detalles de la Reserva",
+        "Detalles de la Reserva:",
         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
       ),
       tilePadding: EdgeInsets.zero,
@@ -29,8 +29,8 @@ class MostrarDetallesReservados extends StatelessWidget {
               _detalleItem("📞 Contacto:", reserva.detallesUsuario.numeroContacto),
               _detalleItem("👨‍👩‍👧‍👦 Miembros:", reserva.detallesUsuario.numMiembros.toString()),
               _detalleItem("🆔 Tipo de identificación:", reserva.detallesUsuario.tipoIdentificacion),
-              _detalleItem("💳 Método de pago:", reserva.metodoPago.tipoPago),
               _detalleItem("🔢 Número de identificación:", reserva.detallesUsuario.numeroId),
+              _detalleItem("💳 Método de pago:", reserva.metodoPago.tipoPago),
             ],
           ),
         ),

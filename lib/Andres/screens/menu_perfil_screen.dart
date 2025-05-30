@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moon_aplication/Andres/widgets/gradiente_color_fondo.dart';
+import 'package:moon_aplication/Diego/widgets/crazy_logo.dart';
 import 'package:moon_aplication/shared/app_theme.dart';
 import 'package:moon_aplication/Andres/data/listado_botones_perfil.dart';
 import 'package:moon_aplication/Andres/widgets/menu_perfil/estilo_boton_perfil.dart';
@@ -41,6 +42,13 @@ class _MenuPerfilState extends State<MenuPerfil> {
                           fit: FlexFit.loose,
                           child: _buildListaBotones(scaleFactor),
                         ),
+                        SizedBox(height:115),
+                        Expanded(
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: const CrazyLogo()
+                          ),
+                        ),                        
                       ],
                     ),
                   ),

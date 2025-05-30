@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:moon_aplication/Andrea/models/hotel.dart';
 import 'package:moon_aplication/Andrea/models/reservas.dart';
 import 'package:moon_aplication/Andres/controller/reservas_controller.dart';
-import 'package:moon_aplication/Andres/widgets/menu_detalles/mostrar_detalles_reservados.dart'; // ✅ Importa el widget
+import 'package:moon_aplication/Andres/widgets/menu_detalles/mostrar_detalles_reservados.dart';
 
 class DetallesReserva extends StatefulWidget {
   final String idReserva;
@@ -74,7 +74,6 @@ class _DetallesReservaState extends State<DetallesReserva> {
                       margin: const EdgeInsets.only(right: 12),
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        // ignore: deprecated_member_use
                         color: Colors.white.withOpacity(0.8),
                         borderRadius: BorderRadius.circular(20),
                       ),
@@ -94,11 +93,13 @@ class _DetallesReservaState extends State<DetallesReserva> {
                 padding: const EdgeInsets.all(16),
                 margin: const EdgeInsets.only(bottom: 10),
                 decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16)),
-                child: MostrarDetallesReservados(reserva: reserva),  
+                child: MostrarDetallesReservados(reserva: reserva),
               ),
               const Text("Total", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-              Text("\$${widget.hotel.precio.toStringAsFixed(2)}",
-                  style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.green)),
+              Text(
+                "\$${reserva.total.toStringAsFixed(2)}",
+                style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.green),
+              ),
               const SizedBox(height: 20),
             ],
           );
