@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:moon_aplication/Diego/screens/screen_before_login.dart';
 import 'package:moon_aplication/Diego/screens/pantalla_login.dart';
@@ -18,11 +19,30 @@ final GoRouter router = GoRouter(
       builder: (context, state) => const ScreenBeforeLogin(),
     ),
 
-    // Ruta para la pantalla de login
-    GoRoute(
-      path: '/login',
-      builder: (context, state) => const PantallaLogin(),
-    ),
+    // Ruta para la pantalla de login con animación Fade + Scale
+   GoRoute(
+  path: '/login',
+  pageBuilder: (context, state) => CustomTransitionPage(
+    key: state.pageKey,
+    transitionDuration: const Duration(milliseconds: 800), // más lento
+    child: const PantallaLogin(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      final curvedAnimation = CurvedAnimation(
+        parent: animation,
+        curve: Curves.easeInOut, // curva suave
+      );
+
+      return FadeTransition(
+        opacity: curvedAnimation,
+        child: ScaleTransition(
+          scale: Tween<double>(begin: 0.95, end: 1.0).animate(curvedAnimation),
+          child: child,
+        ),
+      );
+    },
+  ),
+),
+
 
     // Rutas principales con menú de navegación
     ShellRoute(

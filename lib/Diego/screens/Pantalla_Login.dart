@@ -23,7 +23,7 @@ class PantallaLogin extends StatelessWidget {
                 children: [
                  const CrazyLogo(), // Aquí insertamos el widget del logo
 
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 2),
 
                   // Título
                   Text(

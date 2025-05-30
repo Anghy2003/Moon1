@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart'; // Importante para usar context.go()
+import 'package:go_router/go_router.dart'; // ¡Usa GoRouter!
 import 'package:moon_aplication/Diego/widgets/crazy_logo.dart';
 import '../theme/theme.dart';
 
@@ -15,10 +15,11 @@ class _ScreenBeforeLoginState extends State<ScreenBeforeLogin> {
   void initState() {
     super.initState();
 
-    // Después de 1 segundo, navega a /login usando GoRouter
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 2), () {
       if (!mounted) return;
-      context.go('/login'); // <-- Usa GoRouter
+
+      // ✅ Usa GoRouter para navegar correctamente
+      context.go('/login');
     });
   }
 
@@ -36,13 +37,13 @@ class _ScreenBeforeLoginState extends State<ScreenBeforeLogin> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const CrazyLogo(),
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 2),
                   Text(
                     "Reserva fácil y rápido",
                     style: Theme.of(context).textTheme.headlineLarge,
                     textAlign: TextAlign.center,
                   ),
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 90),
                 ],
               ),
             ),
