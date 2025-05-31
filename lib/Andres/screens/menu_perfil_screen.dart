@@ -42,13 +42,18 @@ class _MenuPerfilState extends State<MenuPerfil> {
                           fit: FlexFit.loose,
                           child: _buildListaBotones(scaleFactor),
                         ),
-                        SizedBox(height:115),
+                        SizedBox(height:100 * scaleFactor),
                         Expanded(
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: const CrazyLogo()
                           ),
-                        ),                        
+                        ),
+                        SizedBox(height: 145 * scaleFactor),                        
+                         Align(
+                            alignment: Alignment.topCenter,
+                            child: Text("TDS M4A 2025 PI", style: TextStyle(fontSize: 8, fontWeight: FontWeight.bold, color: Colors.grey)),
+                            ),
                       ],
                     ),
                   ),
