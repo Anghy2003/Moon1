@@ -80,7 +80,7 @@ class _ReservaDetalladaScreenState extends State<ReservaDetalladaScreen> {
       floatingLabelBehavior: FloatingLabelBehavior.always,
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(15),
-        borderSide: BorderSide(color: Colors.cyan, width: 2),
+        borderSide: const BorderSide(color: Colors.cyan, width: 2),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(15),
@@ -90,7 +90,8 @@ class _ReservaDetalladaScreenState extends State<ReservaDetalladaScreen> {
   }
 
   int calcularNoches() {
-    return widget.fechaCheckOut.difference(widget.fechaCheckIn).inDays;
+    final diferencia = widget.fechaCheckOut.difference(widget.fechaCheckIn).inDays;
+    return diferencia > 0 ? diferencia : 1;
   }
 
   double calcularTotal() {
@@ -186,8 +187,10 @@ class _ReservaDetalladaScreenState extends State<ReservaDetalladaScreen> {
     return Scaffold(
       backgroundColor: const Color(0xFFE6F9FF),
       appBar: AppBar(
-        title: const Text('2/4',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+        title: const Text(
+          '2/4',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+        ),
         centerTitle: true,
         backgroundColor: const Color(0xFFE0F7FA),
         foregroundColor: Colors.black,
@@ -200,36 +203,39 @@ class _ReservaDetalladaScreenState extends State<ReservaDetalladaScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Center(
-                child: Text('Reserva Detallada',
-                    style: TextStyle(
-                        fontSize: screenWidth * 0.06,
-                        fontWeight: FontWeight.bold)),
+                child: Text(
+                  'Reserva Detallada',
+                  style: TextStyle(
+                    fontSize: screenWidth * 0.06,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 30),
               TextField(
                 controller: nombreController,
                 decoration: customInputDecoration('Persona Responsable'),
               ),
-              const SizedBox(height: 15),
+              const SizedBox(height: 25),
               TextField(
                 controller: contactoController,
                 keyboardType: TextInputType.phone,
                 decoration: customInputDecoration('Número de Contacto'),
               ),
-              const SizedBox(height: 15),
-              TextFormField(
+              const SizedBox(height: 25),
+              TextField(
                 controller: miembrosController,
                 keyboardType: TextInputType.text,
-                decoration:
-                    customInputDecoration('Miembros (Ej: 3 Miembros)'),
+                decoration: customInputDecoration('Miembros (Ej: 3 Miembros)'),
               ),
-              const SizedBox(height: 5),
+              const SizedBox(height: 10),
               DropdownButtonFormField<String>(
-                value: null,
-                decoration: InputDecoration(
-                  labelText: 'Seleccionar Miembros',
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15)),
+                value: miembros,
+                decoration: customInputDecoration('Seleccionar Miembros'),
+                iconEnabledColor: Colors.cyan[700],
+                style: TextStyle(
+                  color: Colors.cyan[700],
+                  fontWeight: FontWeight.bold,
                 ),
                 items: List.generate(
                   10,
@@ -247,7 +253,7 @@ class _ReservaDetalladaScreenState extends State<ReservaDetalladaScreen> {
                   }
                 },
               ),
-              const SizedBox(height: 15),
+              const SizedBox(height: 25),
               DropdownButtonFormField<String>(
                 value: tipoId,
                 decoration: customInputDecoration('Tipo de ID'),
@@ -259,42 +265,44 @@ class _ReservaDetalladaScreenState extends State<ReservaDetalladaScreen> {
                     .toList(),
                 onChanged: (value) => setState(() => tipoId = value),
               ),
-              const SizedBox(height: 15),
+              const SizedBox(height: 25),
               TextField(
                 controller: idController,
                 keyboardType: TextInputType.text,
                 decoration: customInputDecoration('Número de ID'),
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 95),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Total',
-                      style: TextStyle(
-                          fontSize: screenWidth * 0.05,
-                          fontWeight: FontWeight.w500)),
-                  Text('\$${total.toStringAsFixed(2)}',
-                      style: TextStyle(
-                          fontSize: screenWidth * 0.06,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.green[700])),
+                  Text(
+                    'Total: \$${total.toStringAsFixed(2)}',
+                    style: TextStyle(
+                      fontSize: screenWidth * 0.05,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.green[700],
+                    ),
+                  ),
                   ElevatedButton(
                     onPressed: validarYContinuar,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.cyan,
-                      padding: EdgeInsets.symmetric(
-                          horizontal: screenWidth * 0.06, vertical: 12),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 14,
+                      ),
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12)),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
                     ),
-                    child: Text('Método de Pago',
-                        style: TextStyle(
-                            fontSize: screenWidth * 0.045,
-                            color: Colors.white)),
+                    child: const Text(
+                      'Método de Pago',
+                      style: TextStyle(fontSize: 16, color: Colors.white),
+                    ),
                   ),
                 ],
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 30),
             ],
           ),
         ),

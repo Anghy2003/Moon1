@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:moon_aplication/Andrea/models/hotel.dart';
 import 'package:moon_aplication/Andrea/screens/payment_success_screen.dart';
 import 'package:moon_aplication/services/services/usuario_actual.dart';
@@ -23,7 +24,9 @@ class MetodoPagoScreen extends StatefulWidget {
     required this.contacto,
     required this.tipoId,
     required this.numeroId,
-    required this.miembros, required double total, required String userId,
+    required this.miembros,
+    required double total,
+    required String userId,
   });
 
   @override
@@ -36,6 +39,7 @@ class _MetodoPagoScreenState extends State<MetodoPagoScreen> {
 
   Future<void> _procesarPago() async {
     if (_procesando) return;
+
     setState(() => _procesando = true);
 
     try {
@@ -65,6 +69,7 @@ class _MetodoPagoScreenState extends State<MetodoPagoScreen> {
       await FirebaseFirestore.instance.collection('reservas').add(reservaData);
 
       if (!mounted) return;
+
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -87,6 +92,7 @@ class _MetodoPagoScreenState extends State<MetodoPagoScreen> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
+
     final total = widget.hotel.precioNoche *
         widget.fechaCheckOut.difference(widget.fechaCheckIn).inDays;
 
@@ -94,7 +100,10 @@ class _MetodoPagoScreenState extends State<MetodoPagoScreen> {
       appBar: AppBar(
         title: const Text(
           '3/4',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+          ),
         ),
         centerTitle: true,
         backgroundColor: const Color(0xFFE0F7FA),
@@ -104,11 +113,15 @@ class _MetodoPagoScreenState extends State<MetodoPagoScreen> {
       backgroundColor: const Color(0xFFE0F7FA),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 20.0,
+            vertical: 16,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 16),
+
               Center(
                 child: Text(
                   'Método de Pago',
@@ -118,51 +131,54 @@ class _MetodoPagoScreenState extends State<MetodoPagoScreen> {
                   ),
                 ),
               ),
+
               const SizedBox(height: 32),
-              _buildPaymentOption(
-                icon: Icons.credit_card,
+
+               _buildPaymentOption(
+                icon: FontAwesomeIcons.creditCard,
                 label: 'Tarjeta de Crédito',
                 value: 'credit_card',
               ),
-              const SizedBox(height: 16),
+
+              const SizedBox(height: 32),  // + espacio extra
+
               _buildPaymentOption(
-                icon: Icons.account_balance_wallet,
+                icon: FontAwesomeIcons.paypal,
                 label: 'PayPal',
                 value: 'paypal',
               ),
-              const SizedBox(height: 16),
+
+              const SizedBox(height: 32),  // + espacio extra
+
               _buildPaymentOption(
-                icon: Icons.phone_iphone,
+                icon: FontAwesomeIcons.applePay,
                 label: 'Apple Pay',
                 value: 'apple_pay',
               ),
-              const SizedBox(height: 24),
-              Center(
-                child: TextButton.icon(
-                  onPressed: () {},
-                  icon: const Icon(Icons.add_circle_outline),
-                  label: const Text('Add more'),
-                  style: TextButton.styleFrom(foregroundColor: Colors.black),
-                ),
-              ),
+
+
               const Spacer(),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('Total'),
+                      
                       Text(
-                        '\$${total.toStringAsFixed(2)}',
-                        style: const TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.teal,
-                        ),
-                      ),
+                        'Total: \$${total.toStringAsFixed(2)}',
+                    style: TextStyle(
+                      fontSize: screenWidth * 0.05,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.green[700],
+  
+                    ),
+                    ),
+                      
                     ],
                   ),
+
                   ElevatedButton(
                     onPressed: _procesando ? null : _procesarPago,
                     style: ElevatedButton.styleFrom(
@@ -179,7 +195,10 @@ class _MetodoPagoScreenState extends State<MetodoPagoScreen> {
                         ? const CircularProgressIndicator(color: Colors.white)
                         : const Text(
                             'Procesar Pago',
-                            style: TextStyle(fontSize: 16, color: Colors.white),
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                            ),
                           ),
                   ),
                 ],
@@ -197,6 +216,7 @@ class _MetodoPagoScreenState extends State<MetodoPagoScreen> {
     required String value,
   }) {
     final isSelected = _selectedMethod == value;
+
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -210,7 +230,7 @@ class _MetodoPagoScreenState extends State<MetodoPagoScreen> {
         ],
       ),
       child: ListTile(
-        leading: Icon(icon, color: Colors.blueAccent),
+        leading: FaIcon(icon, color: Colors.blueAccent),
         title: Text(label),
         trailing: Checkbox(
           value: isSelected,

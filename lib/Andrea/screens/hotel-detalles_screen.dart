@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:moon_aplication/Andrea/controllers/hotelControlador.dart';
@@ -93,11 +95,10 @@ class _HoteldetallesScreenState extends State<HoteldetallesScreen> {
                     padding: const EdgeInsets.all(16.0),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(30),
-                      child: Image.network(
+                      child: buildImagenFlexible(
                         imagenSeleccionada!,
                         height: 280,
                         width: double.infinity,
-                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
@@ -195,11 +196,10 @@ class _HoteldetallesScreenState extends State<HoteldetallesScreen> {
                                 ),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(12),
-                                  child: Image.network(
+                                  child: buildImagenFlexible(
                                     imgUrl,
                                     width: 60,
                                     height: 60,
-                                    fit: BoxFit.cover,
                                   ),
                                 ),
                               ),
@@ -336,21 +336,46 @@ class _HoteldetallesScreenState extends State<HoteldetallesScreen> {
       ),
     );
   }
-}
 
-IconData _getIconFromString(String iconName) {
-  switch (iconName) {
-    case 'wifi':
-      return Icons.wifi;
-    case 'pool':
-      return Icons.pool;
-    case 'restaurant':
-      return Icons.restaurant;
-    case 'bathtub':
-      return Icons.bathtub;
-    case 'heater':
-      return Icons.fireplace;
-    default:
-      return Icons.help_outline;
+  IconData _getIconFromString(String iconName) {
+    switch (iconName) {
+      case 'wifi':
+        return Icons.wifi;
+      case 'pool':
+        return Icons.pool;
+      case 'restaurant':
+        return Icons.restaurant;
+      case 'bathtub':
+        return Icons.bathtub;
+      case 'heater':
+        return Icons.fireplace;
+      default:
+        return Icons.help_outline;
+    }
+  }
+
+  Widget buildImagenFlexible(String fuente, {double? width, double? height, BoxFit fit = BoxFit.cover}) {
+    if (fuente.startsWith('data:image')) {
+      try {
+        final base64Data = fuente.split(',').last;
+        Uint8List bytes = base64Decode(base64Data);
+        return Image.memory(
+          bytes,
+          width: width,
+          height: height,
+          fit: fit,
+        );
+      } catch (e) {
+        return const Icon(Icons.broken_image);
+      }
+    } else {
+      return Image.network(
+        fuente,
+        width: width,
+        height: height,
+        fit: fit,
+        errorBuilder: (context, error, stackTrace) => const Icon(Icons.broken_image),
+      );
+    }
   }
 }
