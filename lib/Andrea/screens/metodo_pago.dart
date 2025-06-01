@@ -4,7 +4,6 @@ import 'package:moon_aplication/Andrea/models/hotel.dart';
 import 'package:moon_aplication/Andrea/screens/payment_success_screen.dart';
 import 'package:moon_aplication/services/services/usuario_actual.dart';
 
-
 class MetodoPagoScreen extends StatefulWidget {
   final Hotel hotel;
   final DateTime fechaCheckIn;
@@ -33,43 +32,56 @@ class MetodoPagoScreen extends StatefulWidget {
 
 class _MetodoPagoScreenState extends State<MetodoPagoScreen> {
   String _selectedMethod = 'credit_card';
+  bool _procesando = false;
 
   Future<void> _procesarPago() async {
-    // Calcular cantidad de noches
-    int cantidadNoches = widget.fechaCheckOut.difference(widget.fechaCheckIn).inDays;
-    double total = cantidadNoches * widget.hotel.precioNoche;
+    if (_procesando) return;
+    setState(() => _procesando = true);
 
-    final reservaData = {
-      'usuarioId': UsuarioActual.uid, // Solo el ID del usuario
-      'hotel': {
-        'id': widget.hotel.id,
-        'nombre': widget.hotel.nombre,
-        'descripcion': widget.hotel.descripcion,
-        'precioNoche': widget.hotel.precioNoche,
-      },
-      'fechaCheckIn': widget.fechaCheckIn.toIso8601String(),
-      'fechaCheckOut': widget.fechaCheckOut.toIso8601String(),
-      'personaResponsable': widget.nombre,
-      'numeroContacto': widget.contacto,
-      'tipoId': widget.tipoId,
-      'numeroId': widget.numeroId,
-      'miembros': widget.miembros,
-      'metodoPago': _selectedMethod,
-      'total': total,
-      'fechaReserva': DateTime.now().toIso8601String(),
-    };
+    try {
+      int cantidadNoches = widget.fechaCheckOut.difference(widget.fechaCheckIn).inDays;
+      double total = cantidadNoches * widget.hotel.precioNoche;
 
-    await FirebaseFirestore.instance.collection('reservas').add(reservaData);
+      final reservaData = {
+        'usuarioId': UsuarioActual.uid,
+        'hotel': {
+          'id': widget.hotel.id,
+          'nombre': widget.hotel.nombre,
+          'descripcion': widget.hotel.descripcion,
+          'precioNoche': widget.hotel.precioNoche,
+        },
+        'fechaCheckIn': widget.fechaCheckIn.toIso8601String(),
+        'fechaCheckOut': widget.fechaCheckOut.toIso8601String(),
+        'personaResponsable': widget.nombre,
+        'numeroContacto': widget.contacto,
+        'tipoId': widget.tipoId,
+        'numeroId': widget.numeroId,
+        'miembros': widget.miembros,
+        'metodoPago': _selectedMethod,
+        'total': total,
+        'fechaReserva': DateTime.now().toIso8601String(),
+      };
 
-    if (!mounted) return;
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => PagoExitosoScreen(
-          descripcionHotel: widget.hotel.descripcion,
+      await FirebaseFirestore.instance.collection('reservas').add(reservaData);
+
+      if (!mounted) return;
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => PagoExitosoScreen(
+            descripcionHotel: widget.hotel.descripcion,
+          ),
         ),
-      ),
-    );
+      );
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error al procesar la reserva: $e')),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _procesando = false);
+    }
   }
 
   @override
@@ -152,7 +164,7 @@ class _MetodoPagoScreenState extends State<MetodoPagoScreen> {
                     ],
                   ),
                   ElevatedButton(
-                    onPressed: _procesarPago,
+                    onPressed: _procesando ? null : _procesarPago,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.cyan,
                       padding: const EdgeInsets.symmetric(
@@ -163,10 +175,12 @@ class _MetodoPagoScreenState extends State<MetodoPagoScreen> {
                         borderRadius: BorderRadius.circular(25),
                       ),
                     ),
-                    child: const Text(
-                      'Procesar Pago',
-                      style: TextStyle(fontSize: 16, color: Colors.white),
-                    ),
+                    child: _procesando
+                        ? const CircularProgressIndicator(color: Colors.white)
+                        : const Text(
+                            'Procesar Pago',
+                            style: TextStyle(fontSize: 16, color: Colors.white),
+                          ),
                   ),
                 ],
               ),
