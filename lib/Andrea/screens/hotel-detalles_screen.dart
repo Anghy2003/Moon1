@@ -1,7 +1,11 @@
+import 'dart:convert';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:moon_aplication/Andrea/controllers/hotelControlador.dart';
 import 'package:moon_aplication/Andrea/models/hotel.dart';
 import 'package:moon_aplication/Andrea/screens/date_selection_screen.dart';
+import 'package:moon_aplication/services/services/usuario_actual.dart';
 
 class HoteldetallesScreen extends StatefulWidget {
   final String idHotel;
@@ -16,11 +20,52 @@ class _HoteldetallesScreenState extends State<HoteldetallesScreen> {
   String? imagenSeleccionada;
   bool esFavorito = false;
   Future<Hotel>? _hotelFuture;
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   @override
   void initState() {
     super.initState();
     _hotelFuture = obtenerHotelPorId(widget.idHotel);
+    _verificarSiEsFavorito();
+  }
+
+  Future<void> _verificarSiEsFavorito() async {
+    final String idUsuario = UsuarioActual.uid;
+    if (idUsuario.isEmpty) return;
+
+    final querySnapshot = await _db.collection('usuariosLikes')
+        .where('idUsuario', isEqualTo: idUsuario)
+        .where('idHotel', isEqualTo: widget.idHotel)
+        .get();
+
+    setState(() {
+      esFavorito = querySnapshot.docs.isNotEmpty;
+    });
+  }
+
+  Future<void> _toggleFavorito() async {
+    final String idUsuario = UsuarioActual.uid;
+    if (idUsuario.isEmpty) return;
+
+    if (esFavorito) {
+      final querySnapshot = await _db.collection('usuariosLikes')
+          .where('idUsuario', isEqualTo: idUsuario)
+          .where('idHotel', isEqualTo: widget.idHotel)
+          .get();
+
+      for (var doc in querySnapshot.docs) {
+        await doc.reference.delete();
+      }
+    } else {
+      await _db.collection('usuariosLikes').add({
+        'idUsuario': idUsuario,
+        'idHotel': widget.idHotel,
+      });
+    }
+
+    setState(() {
+      esFavorito = !esFavorito;
+    });
   }
 
   @override
@@ -50,11 +95,10 @@ class _HoteldetallesScreenState extends State<HoteldetallesScreen> {
                     padding: const EdgeInsets.all(16.0),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(30),
-                      child: Image.network(
+                      child: buildImagenFlexible(
                         imagenSeleccionada!,
                         height: 280,
                         width: double.infinity,
-                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
@@ -67,7 +111,7 @@ class _HoteldetallesScreenState extends State<HoteldetallesScreen> {
                         decoration: BoxDecoration(
                           color: Colors.white,
                           shape: BoxShape.circle,
-                          boxShadow: [
+                          boxShadow: const [
                             BoxShadow(
                               color: Colors.black26,
                               blurRadius: 4,
@@ -88,16 +132,12 @@ class _HoteldetallesScreenState extends State<HoteldetallesScreen> {
                     top: 40,
                     right: 20,
                     child: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          esFavorito = !esFavorito;
-                        });
-                      },
+                      onTap: _toggleFavorito,
                       child: Container(
                         decoration: BoxDecoration(
                           color: Colors.white,
                           shape: BoxShape.circle,
-                          boxShadow: [
+                          boxShadow: const [
                             BoxShadow(
                               color: Colors.black26,
                               blurRadius: 4,
@@ -124,12 +164,7 @@ class _HoteldetallesScreenState extends State<HoteldetallesScreen> {
                         vertical: 4,
                       ),
                       decoration: BoxDecoration(
-                        color: const Color.fromARGB(
-                          255,
-                          241,
-                          243,
-                          244,
-                        ).withOpacity(0.44),
+                        color: const Color.fromARGB(255, 241, 243, 244).withOpacity(0.44),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: SizedBox(
@@ -147,28 +182,24 @@ class _HoteldetallesScreenState extends State<HoteldetallesScreen> {
                                 });
                               },
                               child: Container(
-                                margin: const EdgeInsets.symmetric(
-                                  horizontal: 6,
-                                ),
+                                margin: const EdgeInsets.symmetric(horizontal: 6),
                                 width: 60,
                                 height: 60,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(12),
                                   border: Border.all(
-                                    color:
-                                        imagenSeleccionada == imgUrl
-                                            ? Colors.white
-                                            : Colors.transparent,
+                                    color: imagenSeleccionada == imgUrl
+                                        ? Colors.white
+                                        : Colors.transparent,
                                     width: 2,
                                   ),
                                 ),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(12),
-                                  child: Image.network(
+                                  child: buildImagenFlexible(
                                     imgUrl,
                                     width: 60,
                                     height: 60,
-                                    fit: BoxFit.cover,
                                   ),
                                 ),
                               ),
@@ -219,33 +250,32 @@ class _HoteldetallesScreenState extends State<HoteldetallesScreen> {
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(
-                          children:
-                              hotel.facilidades.map((f) {
-                                final icon = _getIconFromString(f.icon);
-                                return Container(
-                                  width: 80,
-                                  margin: const EdgeInsets.only(right: 12),
-                                  padding: const EdgeInsets.all(12),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white.withOpacity(0.8),
-                                    borderRadius: BorderRadius.circular(20),
+                          children: hotel.facilidades.map((f) {
+                            final icon = _getIconFromString(f.icon);
+                            return Container(
+                              width: 80,
+                              margin: const EdgeInsets.only(right: 12),
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.8),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Column(
+                                children: [
+                                  Icon(icon, color: Colors.grey[500]),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    f.label,
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      color: Colors.grey[600],
+                                    ),
+                                    textAlign: TextAlign.center,
                                   ),
-                                  child: Column(
-                                    children: [
-                                      Icon(icon, color: Colors.grey[500]),
-                                      const SizedBox(height: 8),
-                                      Text(
-                                        f.label,
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                          color: Colors.grey[600],
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              }).toList(),
+                                ],
+                              ),
+                            );
+                          }).toList(),
                         ),
                       ),
                       const SizedBox(height: 20),
@@ -264,7 +294,6 @@ class _HoteldetallesScreenState extends State<HoteldetallesScreen> {
                           color: Colors.green,
                         ),
                       ),
-
                       const SizedBox(height: 20),
                       Center(
                         child: ElevatedButton(
@@ -272,8 +301,7 @@ class _HoteldetallesScreenState extends State<HoteldetallesScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder:
-                                    (context) => CalendarScreen(hotel: hotel),
+                                builder: (context) => CalendarScreen(hotel: hotel),
                               ),
                             );
                           },
@@ -308,21 +336,46 @@ class _HoteldetallesScreenState extends State<HoteldetallesScreen> {
       ),
     );
   }
-}
 
-IconData _getIconFromString(String iconName) {
-  switch (iconName) {
-    case 'wifi':
-      return Icons.wifi;
-    case 'pool':
-      return Icons.pool;
-    case 'restaurant':
-      return Icons.restaurant;
-    case 'bathtub':
-      return Icons.bathtub;
-    case 'heater':
-      return Icons.fireplace;
-    default:
-      return Icons.help_outline;
+  IconData _getIconFromString(String iconName) {
+    switch (iconName) {
+      case 'wifi':
+        return Icons.wifi;
+      case 'pool':
+        return Icons.pool;
+      case 'restaurant':
+        return Icons.restaurant;
+      case 'bathtub':
+        return Icons.bathtub;
+      case 'heater':
+        return Icons.fireplace;
+      default:
+        return Icons.help_outline;
+    }
+  }
+
+  Widget buildImagenFlexible(String fuente, {double? width, double? height, BoxFit fit = BoxFit.cover}) {
+    if (fuente.startsWith('data:image')) {
+      try {
+        final base64Data = fuente.split(',').last;
+        Uint8List bytes = base64Decode(base64Data);
+        return Image.memory(
+          bytes,
+          width: width,
+          height: height,
+          fit: fit,
+        );
+      } catch (e) {
+        return const Icon(Icons.broken_image);
+      }
+    } else {
+      return Image.network(
+        fuente,
+        width: width,
+        height: height,
+        fit: fit,
+        errorBuilder: (context, error, stackTrace) => const Icon(Icons.broken_image),
+      );
+    }
   }
 }

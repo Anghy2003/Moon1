@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:moon_aplication/Andrea/models/hotel.dart';
 import 'package:moon_aplication/Andrea/screens/payment_success_screen.dart';
 import 'package:moon_aplication/services/services/usuario_actual.dart';
-
 
 class MetodoPagoScreen extends StatefulWidget {
   final Hotel hotel;
@@ -24,7 +24,9 @@ class MetodoPagoScreen extends StatefulWidget {
     required this.contacto,
     required this.tipoId,
     required this.numeroId,
-    required this.miembros, required double total, required String userId,
+    required this.miembros,
+    required double total,
+    required String userId,
   });
 
   @override
@@ -33,48 +35,64 @@ class MetodoPagoScreen extends StatefulWidget {
 
 class _MetodoPagoScreenState extends State<MetodoPagoScreen> {
   String _selectedMethod = 'credit_card';
+  bool _procesando = false;
 
   Future<void> _procesarPago() async {
-    // Calcular cantidad de noches
-    int cantidadNoches = widget.fechaCheckOut.difference(widget.fechaCheckIn).inDays;
-    double total = cantidadNoches * widget.hotel.precioNoche;
+    if (_procesando) return;
 
-    final reservaData = {
-      'usuarioId': UsuarioActual.uid, // Solo el ID del usuario
-      'hotel': {
-        'id': widget.hotel.id,
-        'nombre': widget.hotel.nombre,
-        'descripcion': widget.hotel.descripcion,
-        'precioNoche': widget.hotel.precioNoche,
-      },
-      'fechaCheckIn': widget.fechaCheckIn.toIso8601String(),
-      'fechaCheckOut': widget.fechaCheckOut.toIso8601String(),
-      'personaResponsable': widget.nombre,
-      'numeroContacto': widget.contacto,
-      'tipoId': widget.tipoId,
-      'numeroId': widget.numeroId,
-      'miembros': widget.miembros,
-      'metodoPago': _selectedMethod,
-      'total': total,
-      'fechaReserva': DateTime.now().toIso8601String(),
-    };
+    setState(() => _procesando = true);
 
-    await FirebaseFirestore.instance.collection('reservas').add(reservaData);
+    try {
+      int cantidadNoches = widget.fechaCheckOut.difference(widget.fechaCheckIn).inDays;
+      double total = cantidadNoches * widget.hotel.precioNoche;
 
-    if (!mounted) return;
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => PagoExitosoScreen(
-          descripcionHotel: widget.hotel.descripcion,
+      final reservaData = {
+        'usuarioId': UsuarioActual.uid,
+        'hotel': {
+          'id': widget.hotel.id,
+          'nombre': widget.hotel.nombre,
+          'descripcion': widget.hotel.descripcion,
+          'precioNoche': widget.hotel.precioNoche,
+        },
+        'fechaCheckIn': widget.fechaCheckIn.toIso8601String(),
+        'fechaCheckOut': widget.fechaCheckOut.toIso8601String(),
+        'personaResponsable': widget.nombre,
+        'numeroContacto': widget.contacto,
+        'tipoId': widget.tipoId,
+        'numeroId': widget.numeroId,
+        'miembros': widget.miembros,
+        'metodoPago': _selectedMethod,
+        'total': total,
+        'fechaReserva': DateTime.now().toIso8601String(),
+      };
+
+      await FirebaseFirestore.instance.collection('reservas').add(reservaData);
+
+      if (!mounted) return;
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => PagoExitosoScreen(
+            descripcionHotel: widget.hotel.descripcion,
+          ),
         ),
-      ),
-    );
+      );
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error al procesar la reserva: $e')),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _procesando = false);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
+
     final total = widget.hotel.precioNoche *
         widget.fechaCheckOut.difference(widget.fechaCheckIn).inDays;
 
@@ -82,7 +100,10 @@ class _MetodoPagoScreenState extends State<MetodoPagoScreen> {
       appBar: AppBar(
         title: const Text(
           '3/4',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+          ),
         ),
         centerTitle: true,
         backgroundColor: const Color(0xFFE0F7FA),
@@ -92,11 +113,15 @@ class _MetodoPagoScreenState extends State<MetodoPagoScreen> {
       backgroundColor: const Color(0xFFE0F7FA),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16),
+          padding: const EdgeInsets.symmetric(
+            horizontal: 20.0,
+            vertical: 16,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 16),
+
               Center(
                 child: Text(
                   'Método de Pago',
@@ -106,53 +131,56 @@ class _MetodoPagoScreenState extends State<MetodoPagoScreen> {
                   ),
                 ),
               ),
+
               const SizedBox(height: 32),
-              _buildPaymentOption(
-                icon: Icons.credit_card,
+
+               _buildPaymentOption(
+                icon: FontAwesomeIcons.creditCard,
                 label: 'Tarjeta de Crédito',
                 value: 'credit_card',
               ),
-              const SizedBox(height: 16),
+
+              const SizedBox(height: 32),  // + espacio extra
+
               _buildPaymentOption(
-                icon: Icons.account_balance_wallet,
+                icon: FontAwesomeIcons.paypal,
                 label: 'PayPal',
                 value: 'paypal',
               ),
-              const SizedBox(height: 16),
+
+              const SizedBox(height: 32),  // + espacio extra
+
               _buildPaymentOption(
-                icon: Icons.phone_iphone,
+                icon: FontAwesomeIcons.applePay,
                 label: 'Apple Pay',
                 value: 'apple_pay',
               ),
-              const SizedBox(height: 24),
-              Center(
-                child: TextButton.icon(
-                  onPressed: () {},
-                  icon: const Icon(Icons.add_circle_outline),
-                  label: const Text('Add more'),
-                  style: TextButton.styleFrom(foregroundColor: Colors.black),
-                ),
-              ),
+
+
               const Spacer(),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('Total'),
+                      
                       Text(
-                        '\$${total.toStringAsFixed(2)}',
-                        style: const TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.teal,
-                        ),
-                      ),
+                        'Total: \$${total.toStringAsFixed(2)}',
+                    style: TextStyle(
+                      fontSize: screenWidth * 0.05,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.green[700],
+  
+                    ),
+                    ),
+                      
                     ],
                   ),
+
                   ElevatedButton(
-                    onPressed: _procesarPago,
+                    onPressed: _procesando ? null : _procesarPago,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.cyan,
                       padding: const EdgeInsets.symmetric(
@@ -163,10 +191,15 @@ class _MetodoPagoScreenState extends State<MetodoPagoScreen> {
                         borderRadius: BorderRadius.circular(25),
                       ),
                     ),
-                    child: const Text(
-                      'Procesar Pago',
-                      style: TextStyle(fontSize: 16, color: Colors.white),
-                    ),
+                    child: _procesando
+                        ? const CircularProgressIndicator(color: Colors.white)
+                        : const Text(
+                            'Procesar Pago',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                            ),
+                          ),
                   ),
                 ],
               ),
@@ -183,6 +216,7 @@ class _MetodoPagoScreenState extends State<MetodoPagoScreen> {
     required String value,
   }) {
     final isSelected = _selectedMethod == value;
+
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -196,7 +230,7 @@ class _MetodoPagoScreenState extends State<MetodoPagoScreen> {
         ],
       ),
       child: ListTile(
-        leading: Icon(icon, color: Colors.blueAccent),
+        leading: FaIcon(icon, color: Colors.blueAccent),
         title: Text(label),
         trailing: Checkbox(
           value: isSelected,
