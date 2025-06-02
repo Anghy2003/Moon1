@@ -5,8 +5,8 @@ class BotonHome extends StatelessWidget {
   const BotonHome({super.key});
 
   static NavigationDestination icono() => const NavigationDestination(
-        selectedIcon: Icon(Icons.confirmation_number_outlined, color: Color(0xFF00BECF)), // Turquesa al seleccionarse
-        icon: Icon(Icons.confirmation_number_outlined, color: Colors.white),              // Blanco por defecto
+        selectedIcon: Icon(Icons.home, color: Color(0xFF00BECF)), 
+        icon: Icon(Icons.home, color: Colors.white),              
         label: '',
       );
 

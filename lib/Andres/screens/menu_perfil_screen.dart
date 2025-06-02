@@ -4,7 +4,8 @@ import 'package:moon_aplication/Diego/widgets/crazy_logo.dart';
 import 'package:moon_aplication/shared/app_theme.dart';
 import 'package:moon_aplication/Andres/data/listado_botones_perfil.dart';
 import 'package:moon_aplication/Andres/widgets/menu_perfil/estilo_boton_perfil.dart';
-import 'package:moon_aplication/Andres/widgets/menu_perfil/tarjeta_perfil.dart'; // Importar la nueva clase
+import 'package:moon_aplication/Andres/widgets/menu_perfil/tarjeta_perfil.dart';
+import 'package:moon_aplication/Andres/widgets/Chatbot/chatbot_estilo_boton_en_perfil.dart'; 
 
 class MenuPerfil extends StatefulWidget {
   const MenuPerfil({super.key});
@@ -21,11 +22,9 @@ class _MenuPerfilState extends State<MenuPerfil> {
     return Scaffold(
       appBar: AppBar(toolbarHeight: 0),
       body: Container(
-        width: double.infinity, 
+        width: double.infinity,
         height: double.infinity,
-        decoration: const BoxDecoration(
-          gradient: GradienteColorFondo.backgroundGradient,//FONDO
-        ),
+        decoration: const BoxDecoration(gradient: GradienteColorFondo.backgroundGradient),
         child: SafeArea(
           child: Column(
             children: [
@@ -42,18 +41,25 @@ class _MenuPerfilState extends State<MenuPerfil> {
                           fit: FlexFit.loose,
                           child: _buildListaBotones(scaleFactor),
                         ),
-                        SizedBox(height:100 * scaleFactor),
+                        SizedBox(height: 100 * scaleFactor),
                         Expanded(
                           child: Align(
                             alignment: Alignment.centerLeft,
-                            child: const CrazyLogo()
+                            child: const CrazyLogo(),
                           ),
                         ),
-                        SizedBox(height: 145 * scaleFactor),                        
-                         Align(
-                            alignment: Alignment.topCenter,
-                            child: Text("TDS M4A 2025 PI", style: TextStyle(fontSize: 8, fontWeight: FontWeight.bold, color: Colors.grey)),
-                            ),
+                        SizedBox(height: 20 * scaleFactor),                        
+                        
+                        const ChatbotEstiloBotonPerfil(),
+
+                        SizedBox(height: 20 * scaleFactor),
+                        Align(
+                          alignment: Alignment.topCenter,
+                          child: const Text(
+                            "TDS M4A 2025 PI",
+                            style: TextStyle(fontSize: 8, fontWeight: FontWeight.bold, color: Colors.grey),
+                          ),
+                        ),
                       ],
                     ),
                   ),
