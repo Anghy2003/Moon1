@@ -21,7 +21,7 @@ class CalendarioCard extends StatelessWidget {
         gradient: const LinearGradient(
           colors: [
             Color(0xFFB2EBF2), // Celeste claro arriba
-            Color(0xFF00BCD4), // Turquesa abajo
+           Color(0xFF00BECF),// Turquesa abajo
           ],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,

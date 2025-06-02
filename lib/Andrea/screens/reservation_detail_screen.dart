@@ -23,10 +23,10 @@ class ReservaDetalladaScreen extends StatefulWidget {
 class _ReservaDetalladaScreenState extends State<ReservaDetalladaScreen> {
   final TextEditingController nombreController = TextEditingController();
   final TextEditingController contactoController = TextEditingController();
-  final TextEditingController idController = TextEditingController();
+  final TextEditingController idController = TextEditingController();       // ← controlador para cédula/pasaporte
   final TextEditingController miembrosController = TextEditingController();
 
-  String? tipoId = 'Tarjeta de Identificacion';
+  String? tipoId = 'Tarjeta de Identificacion';  // ← valor inicial por defecto
   String? miembros = '1 Miembro';
   String? userId;
 
@@ -50,11 +50,18 @@ class _ReservaDetalladaScreenState extends State<ReservaDetalladaScreen> {
         if (reservas.docs.isNotEmpty) {
           final reserva = reservas.docs.first.data();
           setState(() {
+            // Nombre y contacto
             nombreController.text = reserva['personaResponsable'] ?? '';
             contactoController.text = reserva['numeroContacto'] ?? '';
+
+            // Miembros (igual que antes)
             final m = reserva['miembros']?.toString().split(' ').first ?? '1';
             miembros = '$m Miembro${m == '1' ? '' : 's'}';
             miembrosController.text = miembros!;
+
+            // ** NUEVAS LÍNEAS: cargar cédula/pasaporte y tipoId **
+            tipoId = reserva['tipoId'] ?? 'Tarjeta de Identificacion';      // ← carga tipo de ID
+            idController.text = reserva['numeroId'] ?? '';                   // ← carga cédula/pasaporte
           });
         } else {
           setState(() {
