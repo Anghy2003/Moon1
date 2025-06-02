@@ -30,7 +30,7 @@ class UbicacionService {
         return "Ubicación no encontrada";
       }
     } catch (e) {
-      return "Error al obtener ubicación: $e";
+      return "Error al obtener ubicación";
     }
   }
 }

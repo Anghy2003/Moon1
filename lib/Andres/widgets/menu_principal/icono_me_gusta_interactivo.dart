@@ -23,26 +23,26 @@ class _IconoMeGustaInteractivoState extends State<IconoMeGustaInteractivo> {
     _verificarSiEsFavorito();
   }
 
-  
   Future<void> _verificarSiEsFavorito() async {
     if (UsuarioActual.uid.isEmpty) {
-      return; 
+      return;
     }
 
     final querySnapshot = await _db.collection('usuariosLikes')
-        .where('idUsuario', isEqualTo: UsuarioActual.uid) 
+        .where('idUsuario', isEqualTo: UsuarioActual.uid)
         .where('idHotel', isEqualTo: widget.hotelId)
         .get();
 
-    setState(() {
-      _esFavorito = querySnapshot.docs.isNotEmpty;
-    });
+    if (mounted) {
+      setState(() {
+        _esFavorito = querySnapshot.docs.isNotEmpty;
+      });
+    }
   }
 
-  
   Future<void> _toggleFavorito() async {
     if (UsuarioActual.uid.isEmpty) {
-      return; 
+      return;
     }
 
     if (_esFavorito) {
@@ -61,9 +61,16 @@ class _IconoMeGustaInteractivoState extends State<IconoMeGustaInteractivo> {
       });
     }
 
-    setState(() {
-      _esFavorito = !_esFavorito;
-    });
+    if (mounted) {
+      setState(() {
+        _esFavorito = !_esFavorito;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -71,13 +78,13 @@ class _IconoMeGustaInteractivoState extends State<IconoMeGustaInteractivo> {
     return Container(
       constraints: const BoxConstraints(minWidth: 30, minHeight: 30),
       decoration: BoxDecoration(
-        color: Colors.black.withAlpha(200),
+        color: Colors.black.withAlpha(100),
         borderRadius: BorderRadius.circular(8),
       ),
       child: GestureDetector(
         onTap: _toggleFavorito,
         child: IconoMeGustaHorizontal(
-          color: _esFavorito ? Colors.red : Colors.grey, 
+          esFavorito: _esFavorito,
         ),
       ),
     );

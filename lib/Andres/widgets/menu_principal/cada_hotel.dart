@@ -28,19 +28,24 @@ class CadaHotel extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.black.withAlpha(200),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Text(
-                  hotel.nombre,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+              Align(
+                alignment: Alignment.centerRight, // Alineación del nombre a la derecha
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.black.withAlpha(140),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+                  child: Text(
+                    hotel.nombre,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ),
               const SizedBox(height: 5),
@@ -53,12 +58,13 @@ class CadaHotel extends StatelessWidget {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
                       decoration: BoxDecoration(
-                        color: Colors.black.withAlpha(200),
+                        color: Colors.black.withAlpha(140),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Text(
                         "⭐ ${hotel.rating}",
                         style: const TextStyle(
+                          fontWeight: FontWeight.bold,
                           color: Colors.white,
                           fontSize: 12,
                         ),
