@@ -15,6 +15,7 @@ class BuscarHotelesReserva extends StatelessWidget {
         height: 70,
         child: TextField(
           onChanged: onChanged,
+          onTapOutside: (_) => FocusScope.of(context).unfocus(),  
           decoration: InputDecoration(
             hintText: 'Buscar hoteles reservados',
             hintStyle: TextStyle(color: theme.colorScheme.onSurfaceVariant),

@@ -8,18 +8,11 @@ class TarjetaPerfil extends StatefulWidget {
   const TarjetaPerfil({super.key, required this.scaleFactor});
 
   @override
-  // ignore: library_private_types_in_public_api
   _TarjetaPerfilState createState() => _TarjetaPerfilState();
 }
 
 class _TarjetaPerfilState extends State<TarjetaPerfil> {
-  String ubicacion= UsuarioActual.ubicacion;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-  
+  String ubicacion = UsuarioActual.ubicacion;
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +31,7 @@ class _TarjetaPerfilState extends State<TarjetaPerfil> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                SizedBox(height: 20 * widget.scaleFactor),
                 Padding(
                   padding: EdgeInsets.fromLTRB(
                     20 * widget.scaleFactor,
@@ -48,48 +42,50 @@ class _TarjetaPerfilState extends State<TarjetaPerfil> {
                   child: Text(
                     'Mi Perfil',
                     style: TextStyle(
-                      fontSize: 21 * widget.scaleFactor,
+                      fontSize: 20 * widget.scaleFactor,
                       fontWeight: FontWeight.bold,
                       color: theme.colorScheme.onSurface,
                     ),
                   ),
                 ),
-                Row(
-                  children: [
-                    SizedBox(
-                      width: 100 * widget.scaleFactor,
-                      height: 100 * widget.scaleFactor,
-                      child: FotoPerfilCircular(
-                        imageUrl: UsuarioActual.fotoUrl,
+                Expanded(
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: 80 * widget.scaleFactor, // Ajustado para evitar overflow
+                        height: 80 * widget.scaleFactor,
+                        child: FotoPerfilCircular(
+                          imageUrl: UsuarioActual.fotoUrl,
+                        ),
                       ),
-                    ),
-                    SizedBox(width: 12 * widget.scaleFactor),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Hola, ${UsuarioActual.nombre}',
-                            style: TextStyle(
-                              fontSize: 18 * widget.scaleFactor,
-                              fontWeight: FontWeight.bold,
-                              color: theme.colorScheme.onSurface,
+                      SizedBox(width: 12 * widget.scaleFactor),
+                      Flexible(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Hola, ${UsuarioActual.nombre}',
+                              style: TextStyle(
+                                fontSize: 18 * widget.scaleFactor,
+                                fontWeight: FontWeight.bold,
+                                color: theme.colorScheme.onSurface,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          Text(
-                            ubicacion,
-                            style: TextStyle(
-                              fontSize: 16 * widget.scaleFactor,
-                              color: theme.colorScheme.onSurfaceVariant,
+                            Text(
+                              ubicacion,
+                              style: TextStyle(
+                                fontSize: 16 * widget.scaleFactor,
+                                color: theme.colorScheme.onSurfaceVariant,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ],
             );

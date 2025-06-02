@@ -8,7 +8,6 @@ class HotelesMeGustaInteractivo extends StatefulWidget {
   const HotelesMeGustaInteractivo({super.key, required this.hotelId});
 
   @override
-  // ignore: library_private_types_in_public_api
   _HotelesMeGustaInteractivoState createState() => _HotelesMeGustaInteractivoState();
 }
 
@@ -23,28 +22,24 @@ class _HotelesMeGustaInteractivoState extends State<HotelesMeGustaInteractivo> {
   }
 
   Future<void> _verificarSiEsFavorito() async {
-    final String idUsuario = UsuarioActual.uid; 
-
-    if (idUsuario.isEmpty) {
-      return; 
-    }
+    final String idUsuario = UsuarioActual.uid;
+    if (idUsuario.isEmpty) return;
 
     final querySnapshot = await _db.collection('usuariosLikes')
         .where('idUsuario', isEqualTo: idUsuario)
         .where('idHotel', isEqualTo: widget.hotelId)
         .get();
 
-    setState(() {
-      _esFavorito = querySnapshot.docs.isNotEmpty;
-    });
+    if (mounted) {
+      setState(() {
+        _esFavorito = querySnapshot.docs.isNotEmpty;
+      });
+    }
   }
 
   Future<void> _toggleFavorito() async {
-    final String idUsuario = UsuarioActual.uid; 
-
-    if (idUsuario.isEmpty) {
-      return; 
-    }
+    final String idUsuario = UsuarioActual.uid;
+    if (idUsuario.isEmpty) return;
 
     if (_esFavorito) {
       final querySnapshot = await _db.collection('usuariosLikes')
@@ -62,9 +57,16 @@ class _HotelesMeGustaInteractivoState extends State<HotelesMeGustaInteractivo> {
       });
     }
 
-    setState(() {
-      _esFavorito = !_esFavorito;
-    });
+    if (mounted) {
+      setState(() {
+        _esFavorito = !_esFavorito;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -72,8 +74,8 @@ class _HotelesMeGustaInteractivoState extends State<HotelesMeGustaInteractivo> {
     return GestureDetector(
       onTap: _toggleFavorito,
       child: Icon(
-        Icons.favorite,
-        color: _esFavorito ? Colors.red : Colors.grey,
+        _esFavorito ? Icons.favorite : Icons.favorite_border, // Ícono bordeado cuando no es favorito
+        color: _esFavorito ? Colors.red : Colors.red, // Ambos tienen el mismo color rojo
         size: 24,
       ),
     );

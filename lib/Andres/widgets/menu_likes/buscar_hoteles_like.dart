@@ -15,25 +15,31 @@ class BuscarHotelesLiked extends StatelessWidget {
         height: 70,
         child: TextField(
           onChanged: onChanged,
+          onTapOutside: (_) => FocusScope.of(context).unfocus(),
           decoration: InputDecoration(
             hintText: 'Buscar hoteles favoritos',
             hintStyle: TextStyle(color: theme.colorScheme.onSurfaceVariant),
-            prefixIcon: Icon(Icons.search, color: theme.colorScheme.onSurfaceVariant),
+            prefixIcon:
+                Icon(Icons.search, color: theme.colorScheme.onSurfaceVariant),
             filled: true,
             fillColor: theme.colorScheme.surface,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30),
-              borderSide: BorderSide(color: theme.colorScheme.primary, width: 2),
+              borderSide:
+                  BorderSide(color: theme.colorScheme.primary, width: 2),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30),
-              borderSide: BorderSide(color: theme.colorScheme.primary, width: 2),
+              borderSide:
+                  BorderSide(color: theme.colorScheme.primary, width: 2),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30),
-              borderSide: BorderSide(color: theme.colorScheme.primary, width: 2),
+              borderSide:
+                  BorderSide(color: theme.colorScheme.primary, width: 2),
             ),
-            contentPadding: const EdgeInsets.symmetric(vertical: 25, horizontal: 16),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 25, horizontal: 16),
           ),
         ),
       ),
